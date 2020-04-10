@@ -56,6 +56,27 @@ int MemoryGetSize() {
 //
 //----------------------------------------------------------------------
 void MemoryModuleInit() {
+    int i;
+    pagestart = uint32((lastosaddress & 0x1FFFFC) / MEM_PAGESIZE) + 1;
+    freemapmax = (int(MemoryGetSize() / MEM_PAGESIZE) + 31) / 32;
+    nfreepages= 0;
+
+    for (i = 0; i < freemapmax; i++) {
+      freemap[i] = 0;
+    }
+    
+    for(i=pagestart; i < int(MemoryGetSize() / MEM_PAGESIZE); i++){
+      nfreepages++;
+      MemorySetFreemap(i);
+	}
+
+    dbprintf("m", "MemoryModuleInit worked and made %d pages!\n", nfreepages);
+
+}
+int MemorySetFreemap(int pageNum){
+    uin32 location = pageNum / 32;
+    uint32 bitPos = pageNum % 32;
+    freemap[location] = (freemap[location] & invert(1 << bitPos)) | (1 << bitPos);
 }
 
 
@@ -68,6 +89,22 @@ void MemoryModuleInit() {
 //
 //----------------------------------------------------------------------
 uint32 MemoryTranslateUserToSystem (PCB *pcb, uint32 addr) {
+    int virtPageNum = addr >> MEM_L1FIELD_FIRST_BITNUM;
+    uint32 offsetFromAdd = addr & MEM_ADDRESS_OFFSET_MASK;
+    uint32 physicalAddress;
+
+    if(addr > MEM_MAX_VIRTUAL_ADDRESS){
+     return MEM_FAIL;
+     }
+
+     if(!(pcb->pagetable[page] & MEM_PTE_VALID)){
+        pcb->currentSavedFrame[PROCESS_STACK_FAULT] = addr;
+        if(MemoryPageFaultHandler(pcb) == MEM_FAIL){
+            return 0;  
+		}
+	 }
+     physicalAddress = ((pcb->pagetable[virtPageNum] >> MEM_L1FIELD_FIRST_BITNUM) << MEM_L1FIELD_FIRST_BITNUM) | offsetFromAdd;
+     return physicalAddress;
 }
 
 
@@ -178,6 +215,7 @@ int MemoryPageFaultHandler(PCB *pcb) {
 //---------------------------------------------------------------------
 
 int MemoryAllocPage(void) {
+  
   return -1;
 }
 
@@ -188,5 +226,7 @@ uint32 MemorySetupPte (uint32 page) {
 
 
 void MemoryFreePage(uint32 page) {
+  MemorySetFreeMap(page);
+  nfreepages++;
 }
 
