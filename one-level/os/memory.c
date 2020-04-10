@@ -74,7 +74,7 @@ void MemoryModuleInit() {
 
 }
 int MemorySetFreemap(int pageNum){
-    uin32 location = pageNum / 32;
+    uint32 location = pageNum / 32;
     uint32 bitPos = pageNum % 32;
     freemap[location] = (freemap[location] & invert(1 << bitPos)) | (1 << bitPos);
 }
@@ -215,8 +215,28 @@ int MemoryPageFaultHandler(PCB *pcb) {
 //---------------------------------------------------------------------
 
 int MemoryAllocPage(void) {
-  
-  return -1;
+  //Not sure if this is all right
+
+  int i = 0;
+
+  if (nfreepages == 0) {
+    return 0;
+  }
+
+  while (freemap[i] == 0 || i == freemapmax) {
+    i++;
+  }
+
+  if (i == freemapmax) {
+    i = 0;
+    return MEM_FAIL;
+  }
+
+  freemap[i] = //set to unavailable
+
+  freemap[i] = (freemap[i] & invert(1 << bitPos)) | (1 << bitPos);
+  nfreepages--; //decrement number freepages
+  return -1; //need to return page number
 }
 
 
