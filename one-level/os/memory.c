@@ -95,14 +95,14 @@ uint32 MemoryTranslateUserToSystem (PCB *pcb, uint32 addr) {
 
     if(addr > MEM_MAX_VIRTUAL_ADDRESS){
      return MEM_FAIL;
-     }
+    }
 
      if(!(pcb->pagetable[page] & MEM_PTE_VALID)){ //is this supposed to be virtPageNum?
         pcb->currentSavedFrame[PROCESS_STACK_FAULT] = addr;
         if(MemoryPageFaultHandler(pcb) == MEM_FAIL){
             return 0;  
-		}
-	 }
+        }
+     }
      physicalAddress = ((pcb->pagetable[virtPageNum] >> MEM_L1FIELD_FIRST_BITNUM) << MEM_L1FIELD_FIRST_BITNUM) | offsetFromAdd;
      return physicalAddress;
 }
@@ -205,6 +205,9 @@ int MemoryCopyUserToSystem (PCB *pcb, unsigned char *from,unsigned char *to, int
 // Feel free to edit.
 //---------------------------------------------------------------------
 int MemoryPageFaultHandler(PCB *pcb) {
+  uint32 faultingAddr = pcb -> currentSavedFrame[PROCESS_STACK_FAULT];
+  uint32 userstackAddr = pcb -> currentSavedFrame[PROCESS_STACK_USER_STACKPOINTER];
+
   return MEM_FAIL;
 }
 
