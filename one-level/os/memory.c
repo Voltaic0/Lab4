@@ -57,15 +57,15 @@ int MemoryGetSize() {
 //----------------------------------------------------------------------
 void MemoryModuleInit() {
     int i;
-    pagestart = uint32((lastosaddress & 0x1FFFFC) / MEM_PAGESIZE) + 1;
-    freemapmax = (int(MemoryGetSize() / MEM_PAGESIZE) + 31) / 32;
+    pagestart =  (uint32)((lastosaddress & 0x1FFFFC) / MEM_PAGESIZE) + 1;
+    freemapmax = ((int)MemoryGetSize() / MEM_PAGESIZE) + 31) / 32;
     nfreepages= 0;
 
     for (i = 0; i < freemapmax; i++) {
       freemap[i] = 0;
     }
     
-    for(i=pagestart; i < int(MemoryGetSize() / MEM_PAGESIZE); i++){
+    for(i=pagestart; i < (int)(MemoryGetSize() / MEM_PAGESIZE); i++){
       nfreepages++;
       MemorySetFreemap(i);
 	}
