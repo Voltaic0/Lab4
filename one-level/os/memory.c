@@ -8,7 +8,7 @@
 #include "ostraps.h"
 #include "dlxos.h"
 #include "process.h"
-#include "memory.h"
+#include "memory.h" //test for commit
 #include "queue.h"
 
 // num_pages = size_of_memory / size_of_one_page
