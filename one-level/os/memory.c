@@ -58,7 +58,7 @@ int MemoryGetSize() {
 void MemoryModuleInit() {
     int i;
     pagestart =  (uint32)((lastosaddress & 0x1FFFFC) / MEM_PAGESIZE) + 1;
-    freemapmax = ((int)MemoryGetSize() / MEM_PAGESIZE) + 31) / 32;
+    freemapmax = ((int)MemoryGetSize() / MEM_PAGESIZE + 31) / 32;
     nfreepages= 0;
 
     for (i = 0; i < freemapmax; i++) {
@@ -97,7 +97,7 @@ uint32 MemoryTranslateUserToSystem (PCB *pcb, uint32 addr) {
      return MEM_FAIL;
      }
 
-     if(!(pcb->pagetable[page] & MEM_PTE_VALID)){
+     if(!(pcb->pagetable[page] & MEM_PTE_VALID)){ //is this supposed to be virtPageNum?
         pcb->currentSavedFrame[PROCESS_STACK_FAULT] = addr;
         if(MemoryPageFaultHandler(pcb) == MEM_FAIL){
             return 0;  
@@ -215,9 +215,9 @@ int MemoryPageFaultHandler(PCB *pcb) {
 //---------------------------------------------------------------------
 
 int MemoryAllocPage(void) {
-  //Not sure if this is all right
-
   int i = 0;
+  int bitPos = 0;
+  int pageNumber;
 
   if (nfreepages == 0) {
     return 0;
@@ -229,14 +229,18 @@ int MemoryAllocPage(void) {
 
   if (i == freemapmax) {
     i = 0;
-    return MEM_FAIL;
+    return MEM_FAIL;  //should something else happen here if there are no free freemap elements?
   }
 
-  freemap[i] = //set to unavailable
+  //find first bit set to 1
+  while (freemap[i] & 1 << bitPos == 0) {
+    bitPos++;
+  }
 
-  freemap[i] = (freemap[i] & invert(1 << bitPos)) | (1 << bitPos);
+  freemap[i] = (freemap[i] & invert(1 << bitPos));
+  pageNumber = (i * 32) + bitPos;
   nfreepages--; //decrement number freepages
-  return -1; //need to return page number
+  return pageNumber; //need to return page number
 }
 
 
