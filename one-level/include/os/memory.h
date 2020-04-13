@@ -29,5 +29,5 @@ void MemoryFreePte(uint32);
 void MemorySetFreemap(int);
 void MemoryFreePage(uint32);
 uint32 MemorySetupPte(uint32);
-void *malloc(int);
-int mfree(void *);
+void *malloc(PCB* pcb, int memsize);
+int mfree(PCB* pcb, void *ptr);
