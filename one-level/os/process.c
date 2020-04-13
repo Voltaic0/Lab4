@@ -88,7 +88,7 @@ void ProcessModuleInit () {
     // STUDENT: Initialize the PCB's page table here.
     //-------------------------------------------------------
     pcbs[i].npages = 0;
-    for (j = 0; j < MEM_MAX_PAGES; j++) {
+    for (j = 0; j < MEM_L1TABLE_SIZE; j++) { //loop through page table size
       pcbs[i].pagetable[j] = 0;
     }
     
