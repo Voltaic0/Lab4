@@ -205,6 +205,7 @@ int MemoryCopyUserToSystem (PCB *pcb, unsigned char *from,unsigned char *to, int
 // Feel free to edit.
 //---------------------------------------------------------------------
 int MemoryPageFaultHandler(PCB *pcb) {
+  dbprintf('m', "Entering MemoryPageFaultHandler, PID: %d\n", GetCurrentPid());
   uint32 processPte;
   uint32 faultingAddr = pcb -> currentSavedFrame[PROCESS_STACK_FAULT];
   uint32 userStackAddr = pcb -> currentSavedFrame[PROCESS_STACK_USER_STACKPOINTER];
