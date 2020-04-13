@@ -73,7 +73,7 @@ void MemoryModuleInit() {
     dbprintf("m", "MemoryModuleInit worked and made %d pages!\n", nfreepages);
 
 }
-int MemorySetFreemap(int pageNum){
+void MemorySetFreemap(int pageNum){
     uint32 location = pageNum / 32;
     uint32 bitPos = pageNum % 32;
     freemap[location] = (freemap[location] & invert(1 << bitPos)) | (1 << bitPos);
@@ -97,7 +97,7 @@ uint32 MemoryTranslateUserToSystem (PCB *pcb, uint32 addr) {
      return MEM_FAIL;
     }
 
-     if(!(pcb->pagetable[page] & MEM_PTE_VALID)){ //is this supposed to be virtPageNum?
+     if(!(pcb->pagetable[virtPageNum] & MEM_PTE_VALID)){ //is this supposed to be virtPageNum?
         pcb->currentSavedFrame[PROCESS_STACK_FAULT] = addr;
         if(MemoryPageFaultHandler(pcb) == MEM_FAIL){
             return 0;  
@@ -205,6 +205,7 @@ int MemoryCopyUserToSystem (PCB *pcb, unsigned char *from,unsigned char *to, int
 // Feel free to edit.
 //---------------------------------------------------------------------
 int MemoryPageFaultHandler(PCB *pcb) {
+  uint32 processPte;
   uint32 faultingAddr = pcb -> currentSavedFrame[PROCESS_STACK_FAULT];
   uint32 userStackAddr = pcb -> currentSavedFrame[PROCESS_STACK_USER_STACKPOINTER];
 
@@ -220,9 +221,9 @@ int MemoryPageFaultHandler(PCB *pcb) {
       ProcessKill();
     }
 
-    pcb -> npages++;
-    uint32 processPte = MemorySetupPte(newPage);
-    pcb -> pagetable[faultPageNum] = processPte;
+    pcb->npages++;
+    processPte = MemorySetupPte(newPage);
+    pcb->pagetable[faultPageNum] = processPte;
 
     return MEM_SUCCESS;
   }
@@ -257,7 +258,7 @@ int MemoryAllocPage(void) {
   }
 
   //find first bit set to 1
-  while (freemap[i] & 1 << bitPos == 0) {
+  while ((freemap[i] & 1) << bitPos == 0) {
     bitPos++;
   }
 
