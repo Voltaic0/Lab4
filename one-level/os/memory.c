@@ -12,7 +12,7 @@
 #include "queue.h"
 
 // num_pages = size_of_memory / size_of_one_page
-static uint32 freemap[/*size*/];
+static uint32 freemap[16];
 static uint32 pagestart;
 static int nfreepages;
 static int freemapmax;
@@ -275,11 +275,11 @@ uint32 MemorySetupPte (uint32 page) {
 
 
 void MemoryFreePage(uint32 page) {
-  MemorySetFreeMap(page);
+  MemorySetFreemap(page);
   nfreepages++;
 }
 void *malloc(PCB* pcb, int memsize){
-
+    return NULL;
 }
 int mfree(PCB* pcb, void *ptr){
     return -1;
