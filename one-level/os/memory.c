@@ -206,8 +206,29 @@ int MemoryCopyUserToSystem (PCB *pcb, unsigned char *from,unsigned char *to, int
 //---------------------------------------------------------------------
 int MemoryPageFaultHandler(PCB *pcb) {
   uint32 faultingAddr = pcb -> currentSavedFrame[PROCESS_STACK_FAULT];
-  uint32 userstackAddr = pcb -> currentSavedFrame[PROCESS_STACK_USER_STACKPOINTER];
+  uint32 userStackAddr = pcb -> currentSavedFrame[PROCESS_STACK_USER_STACKPOINTER];
 
+  int faultPageNum = faultingAddr >> MEM_L1FIELD_FIRST_BITNUM;
+  int userStackPageNum = userStackAddr >> MEM_L1FIELD_FIRST_BITNUM;
+
+  if (faultingAddr >= userStackAddr) {
+    //not a seg fault
+    //allocate a new page
+
+    int newPage = MemoryAllocPage();
+    if (newPage < 0) {
+      ProcessKill();
+    }
+
+    pcb -> npages++;
+    uint32 processPte = MemorySetupPte(newPage);
+    pcb -> pagetable[faultPageNum] = processPte;
+
+    return MEM_SUCCESS;
+  }
+
+  //else seg fault
+  ProcessKill();
   return MEM_FAIL;
 }
 
@@ -223,7 +244,7 @@ int MemoryAllocPage(void) {
   int pageNumber;
 
   if (nfreepages == 0) {
-    return 0;
+    return MEM_FAIL;
   }
 
   while (freemap[i] == 0 || i == freemapmax) {
