@@ -269,7 +269,7 @@ int MemoryAllocPage(void) {
 
 
 uint32 MemorySetupPte (uint32 page) {
-  return -1;
+  return ((page * MEM_PAGESIZE) | MEM_PTE_VALID);
 }
 
 
