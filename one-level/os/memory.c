@@ -249,6 +249,7 @@ int MemoryAllocPage(void) {
   int bitPos = 0;
   int pageNumber;
 
+  dbprintf ('m', "Allocating Memory Page in MemoryAllocPage.\n");
   if (nfreepages == 0) {
     return MEM_FAIL;
   }
@@ -256,17 +257,17 @@ int MemoryAllocPage(void) {
   while (freemap[i] == 0 || i == freemapmax) {
     i++;
   }
-
+  
   if (i == freemapmax) {
     i = 0;
     return MEM_FAIL;  //should something else happen here if there are no free freemap elements?
   }
 
-  //find first bit set to 1
-  while ((freemap[i] & 1) << bitPos == 0) {
+  //find first bit set to 1 //STUCK HERE
+  while (freemap[i] & (1 << bitPos) == 0) {
     bitPos++;
   }
-
+  dbprintf ('m', "After loop in MemoryAllocPage.\n");
   freemap[i] = (freemap[i] & invert(1 << bitPos));
   pageNumber = (i * 32) + bitPos;
   nfreepages--; //decrement number freepages
