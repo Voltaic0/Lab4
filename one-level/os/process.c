@@ -457,7 +457,7 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   }
 
   pcb -> sysStackArea = newPage * MEM_PAGESIZE;
-  stackframe = (pcb -> sysStackArea + MEM_PAGESIZE) - 4;
+  stackframe = (uint32 *)(pcb -> sysStackArea + MEM_PAGESIZE) - 4;
 
 
   // Now that the stack frame points at the bottom of the system stack memory area, we need to
@@ -488,9 +488,9 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   // STUDENT: setup the PTBASE, PTBITS, and PTSIZE here on the current
   // stack frame.
   //----------------------------------------------------------------------
-  stackframe[PTBASE] = &(pcb->pagetable[0]); //base address of the level one pagetable
-  stackframe[PTBITS] = (MEM_L1TFIELD_FIRST_BITNUM << 16) | MEM_L1FIELD_FIRST_BITNUM; 
-  stackframe[PTSIZE] = MEM_L1TABLE_SIZE; //max number of entries in level 1 pagetable
+  stackframe[PROCESS_STACK_PTBASE] = &(pcb->pagetable[0]); //base address of the level one pagetable
+  stackframe[PROCESS_STACK_PTBITS] = (MEM_L1FIELD_FIRST_BITNUM << 16) | MEM_L1FIELD_FIRST_BITNUM; 
+  stackframe[PROCESS_STACK_PTSIZE] = MEM_L1TABLE_SIZE; //max number of entries in level 1 pagetable
 
 
   if (isUser) {
