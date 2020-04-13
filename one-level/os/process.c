@@ -65,7 +65,8 @@ uint32 get_argument(char *string);
 //
 //----------------------------------------------------------------------
 void ProcessModuleInit () {
-  int		i;
+  int	i;
+  int j;
 
   dbprintf ('p', "Entering ProcessModuleInit\n");
   AQueueInit (&freepcbs);
@@ -86,7 +87,11 @@ void ProcessModuleInit () {
     //-------------------------------------------------------
     // STUDENT: Initialize the PCB's page table here.
     //-------------------------------------------------------
-
+    pcbs[i].npages = 0;
+    for (j = 0; j < MEM_MAX_PAGES; j++) {
+      pcbs[i].pagetable[j] = 0;
+    }
+    
     // Finally, insert the link into the queue
     if (AQueueInsertFirst(&freepcbs, pcbs[i].l) != QUEUE_SUCCESS) {
       printf("FATAL ERROR: could not insert PCB link into queue in ProcessModuleInit!\n");
@@ -376,6 +381,7 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   uint32 offset;           // Used in parsing command line argument strings, holds offset (in bytes) from 
                            // beginning of the string to the current argument.
   uint32 initial_user_params_bytes;  // total number of bytes in initial user parameters array
+  int newPage;
 
 
   intrs = DisableIntrs ();
@@ -417,6 +423,32 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   // for the system stack.
   //---------------------------------------------------------
   pcb -> npages = 4;
+  for (i = 0; i < 4; i++) {
+    newPage = MemoryAllocPage();
+    if (newPage < 0) {
+      //alloc failed
+      exitsim();
+    }
+    pcb -> pagetable[i] = MemorySetupPte(newPage);
+  }
+
+  //user stack
+  newPage = MemoryAllocPage();
+  if (newPage < 0) {
+    exitsim();
+  }
+  pcb -> pagetable[MEM_MAX_VIRTUAL_ADDRESS >> MEM_L1FIELD_FIRST_BITNUM] = MemorySetupPte(newPage); //stack starts from highest address
+  pcb -> npages++;
+
+
+  //system stack
+  newPage = MemoryAllocPage();
+  if (newPage < 0) {
+    exitsim();
+  }
+
+  pcb -> sysStackArea = newPage * MEM_PAGESIZE;
+  stackframe = (pcb -> sysStackArea + MEM_PAGESIZE) - 4;
 
 
   // Now that the stack frame points at the bottom of the system stack memory area, we need to
