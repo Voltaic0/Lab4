@@ -70,7 +70,7 @@ void MemoryModuleInit() {
       MemorySetFreemap(i);
 	}
 
-    dbprintf("m", "MemoryModuleInit worked and made %d pages!\n", nfreepages);
+    dbprintf("m", "MemoryModuleInit worked and made %d pages!\n", (int)nfreepages);
 
 }
 void MemorySetFreemap(int pageNum){
@@ -205,19 +205,23 @@ int MemoryCopyUserToSystem (PCB *pcb, unsigned char *from,unsigned char *to, int
 // Feel free to edit.
 //---------------------------------------------------------------------
 int MemoryPageFaultHandler(PCB *pcb) {
-  dbprintf('m', "Entering MemoryPageFaultHandler, PID: %d\n", GetCurrentPid());
   uint32 processPte;
-  uint32 faultingAddr = pcb -> currentSavedFrame[PROCESS_STACK_FAULT];
-  uint32 userStackAddr = pcb -> currentSavedFrame[PROCESS_STACK_USER_STACKPOINTER];
+  uint32 faultingAddr;
+  uint32 userStackAddr;
+  int faultPageNum;
+  int userStackPageNum;
+  int newPage;
+  faultingAddr = pcb -> currentSavedFrame[PROCESS_STACK_FAULT];
+  userStackAddr = pcb -> currentSavedFrame[PROCESS_STACK_USER_STACKPOINTER];
 
-  int faultPageNum = faultingAddr >> MEM_L1FIELD_FIRST_BITNUM;
-  int userStackPageNum = userStackAddr >> MEM_L1FIELD_FIRST_BITNUM;
-
+  faultPageNum = faultingAddr >> MEM_L1FIELD_FIRST_BITNUM;
+  userStackPageNum = userStackAddr >> MEM_L1FIELD_FIRST_BITNUM;
+  dbprintf('m', "Entering MemoryPageFaultHandler, PID: %d\n", GetCurrentPid());
   if (faultingAddr >= userStackAddr) {
     //not a seg fault
     //allocate a new page
 
-    int newPage = MemoryAllocPage();
+    newPage = MemoryAllocPage();
     if (newPage < 0) {
       ProcessKill();
     }
