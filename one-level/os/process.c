@@ -143,6 +143,15 @@ void ProcessFreeResources (PCB *pcb) {
   // STUDENT: Free any memory resources on process death here.
   //------------------------------------------------------------
 
+  for(i=0; i < MEM_L1TABLE_SIZE; i++){
+    if(pcb->pagetable[i] & MEM_PTE_VALID){
+         MemoryFreePage(pcb->pagetable[i] / MEM_PAGESIZE);
+         pcb->pagetable[i]=0;
+
+	}
+     
+  }
+  MemoryFreePage(pcb->sysStackArea / MEM_PAGESIZE);
 
   ProcessSetStatus (pcb, PROCESS_STATUS_FREE);
 }
@@ -479,6 +488,10 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   // STUDENT: setup the PTBASE, PTBITS, and PTSIZE here on the current
   // stack frame.
   //----------------------------------------------------------------------
+  stackframe[PTBASE] = &(pcb->pagetable[0]); //base address of the level one pagetable
+  stackframe[PTBITS] = (MEM_L1TFIELD_FIRST_BITNUM << 16) | MEM_L1FIELD_FIRST_BITNUM; 
+  stackframe[PTSIZE] = MEM_L1TABLE_SIZE; //max number of entries in level 1 pagetable
+
 
   if (isUser) {
     dbprintf ('p', "About to load %s\n", name);
@@ -508,7 +521,7 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
     // STUDENT: setup the initial user stack pointer here as the top
     // of the process's virtual address space (4-byte aligned).
     //----------------------------------------------------------------------
-
+    stackframe[PROCESS_STACK_USER_STACKPOINTER] = MEM_MAX_VIRTUAL_ADDRESS - 3;
 
     //--------------------------------------------------------------------
     // This part is setting up the initial user stack with argc and argv.
