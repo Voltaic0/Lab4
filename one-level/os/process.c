@@ -438,7 +438,7 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   stackframe = (uint32 *)(pcb -> sysStackArea + MEM_PAGESIZE - 4); 
   dbprintf ('p', "Allocated system stack.\n");
 
-  pcb -> npages = 4;
+  pcb -> npages = 6;
   for (i = 0; i < 4; i++) {
     newPage = MemoryAllocPage();
     if (newPage < 0) {
@@ -447,14 +447,14 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
     }
     pcb -> pagetable[i] = MemorySetupPte(newPage);
   }
-   dbprintf ('p', "Allocated 4 pages for process.\n");
+  dbprintf ('p', "Allocated 4 pages for process.\n");
   //user stack
   newPage = MemoryAllocPage();
   if (newPage < 0) {
     exitsim();
   }
-  pcb -> npages = 6;
-  pcb -> pagetable[MEM_L1TABLE_SIZE-1] = MemorySetupPte(newPage); //stack starts from highest address
+  //pcb -> npages = 6;
+  pcb -> pagetable[MEM_MAX_VIRTUAL_ADDRESS >> MEM_L1FIELD_FIRST_BITNUM] = MemorySetupPte(newPage); //stack starts from highest address
   
   dbprintf ('p', "Allocated userstack.\n");
 
@@ -523,7 +523,7 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
     // STUDENT: setup the initial user stack pointer here as the top
     // of the process's virtual address space (4-byte aligned).
     //----------------------------------------------------------------------
-    pcb->currentSavedFrame[PROCESS_STACK_USER_STACKPOINTER] = (uint32)(MEM_MAX_VIRTUAL_ADDRESS - 3);
+    pcb->currentSavedFrame[PROCESS_STACK_USER_STACKPOINTER] = (MEM_MAX_VIRTUAL_ADDRESS - 3);
     dbprintf('p', "TEST");
 
     //--------------------------------------------------------------------

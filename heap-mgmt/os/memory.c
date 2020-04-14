@@ -287,51 +287,49 @@ void MemoryFreePage(uint32 page) {
   nfreepages++;
 }
 void *malloc(PCB* pcb, int memsize){
-    uint32 blocks = 0, currentFree = 0, oldFree = 0, index =0, prevIndex =0;
-    int i;
+    int ord = 0, smallOrd = 8, location = 0;
+    int i, bound;
+
 
     if(memsize < 0 || memsize > MEM_PAGESIZE){
      printf("Asked for too much memory.\n");
      return NULL;
 	}
 
-    if(memsize % 4 != 0){
-     blocks = memsize / 4 + 1;
+    if(memsize < (0x1 << 5)){
+     ord = 0;
 	}else{
-     blocks = memsize /4;
-	}
-
-    for(i = 0; i < MEM_PAGESIZE / 4; i++){
-     if(pcb->heapMgmt[i] == 0){
-      if(!currentFree){
-       index = i;
+     for(ord = 0; ord <= 7; ord++){
+      if((((memsize-1) >> (5 + ord)) == 0) && (((memsize -1) >> (5 + ord -1))){
+       break;
 	  }
-      currentFree++;
-	 }else{
-      if((currentFree >= blocks) && (currentFree < oldFree)){
-       oldFree = currentFree;
-       prevIndex = index;
-	  }
-      currentFree = 0;
 	 }
 	}
 
-    if(!currentFree && !oldFree){
-     printf("Unable to allocate.\n");
+    for(i = 0; i < 128; i += (1 << (pcb->heapMgmt[i] & (0x7f)))){
+        if((pcb->heapMgmt[i] & 0x80) == 0 && (pcb->heapMgmt[i] & (0x7f)) >= ord){
+            if((pcb->heapMgmt[i] & 0x7f) < smallOrd){
+                smallOrd = (pcb->heapMgmt[i] & 0x7f);
+                location = i;
+			}  
+		}
+
+	}
+    if(smallOrd == 8){
      return NULL;
 	}
+    //Need to make child nodes
 
-    if((currentFree >= blocks) && ((currentFree < oldFree) || !oldFree)){
-     oldFree = currentFree;
-     prevIndex = index;
+    while(smallOrd >= ord){
+        bound = (1 << smallOrd);
+        while(bound <= location){
+            bound += (1 << smallOrd);  
+		}
 
+        if(smallOrd != ord){
+            printf("Created a right child node (order = %d, addr = %d, size = %d) of parent (order= %d, addr = %d, size = %d)\n", smallOrd -1, location << 5, (1 << (smallOrd-1)) << 5, smallOrd, location << 5, (1 << smallOrd) << 5);  
+		}
 	}
-
-    for( i = prevIndex; (i < blocks + prevIndex) && i < MEM_PAGESIZE / 4; i++){
-     pcb->heapMgmt[i] = blocks - (i - prevIndex);
-	}
-
-
 
     return NULL;
 }

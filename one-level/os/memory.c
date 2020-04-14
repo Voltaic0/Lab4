@@ -218,7 +218,7 @@ int MemoryPageFaultHandler(PCB *pcb) {
   printf("faulting addr = 0x%x, userStackAddr = 0x%x\n", faultingAddr, userStackAddr);
 
   faultPageNum = faultingAddr >> MEM_L1FIELD_FIRST_BITNUM;
-  //userStackPageNum = userStackAddr >> MEM_L1FIELD_FIRST_BITNUM;
+  userStackPageNum = userStackAddr >> MEM_L1FIELD_FIRST_BITNUM;
   printf("Entering MemoryPageFaultHandler, PID: %d\n", GetCurrentPid());
   if (faultingAddr >= userStackAddr) {
     //not a seg fault
