@@ -482,7 +482,7 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   // previous frame.
   dbprintf('m', "ProcessFork: stackframe = 0x%x\n", (int)stackframe);
   stackframe[PROCESS_STACK_PREV_FRAME] = 0; //illegal access is here
-  dbprintf('m', "ERROR.\n");
+  //dbprintf('m', "ERROR.\n");
 
   //----------------------------------------------------------------------
   // STUDENT: setup the PTBASE, PTBITS, and PTSIZE here on the current

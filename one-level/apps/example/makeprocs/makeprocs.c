@@ -68,6 +68,17 @@ void main (int argc, char *argv[])
   }
 
 
+  //Test5
+  Printf("makeprocs (%d): Creating %d hello world's in a row for test5, but only one runs at a time\n", getpid(), 100);
+  for(i=0; i<100; i++) {
+    Printf("makeprocs (%d): Creating hello world #%d\n", getpid(), i);
+    process_create(TEST1, s_procs_completed_str, NULL);
+    if (sem_wait(s_procs_completed) != SYNC_SUCCESS) {
+      Printf("Bad semaphore s_procs_completed (%d) in %s\n", s_procs_completed, argv[0]);
+      Exit();
+    }
+  }
+
   Printf("-------------------------------------------------------------------------------------\n");
   Printf("makeprocs (%d): All other processes completed, exiting main process.\n", getpid());
 
