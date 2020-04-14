@@ -846,9 +846,9 @@ void main (int argc, char *argv[])
   for (i = 0; i < argc; i++) {
     printf ("Argument %d is %s.\n", i, argv[i]);
   }
-
-  FsModuleInit ();
   printf("Fs module init!\n");
+  FsModuleInit ();
+  
   for (i = 0; i < argc; i++) 
   {
     if (argv[i][0] == '-') 
