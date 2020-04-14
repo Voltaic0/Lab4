@@ -8,7 +8,7 @@
 
 void main (int argc, char *argv[])
 {
-    int i;
+    int i = 0;
     int child;
 
     if(argc != 1){
@@ -20,10 +20,12 @@ void main (int argc, char *argv[])
 
     child = fork();
     if(child != 0){
-     Printf("Parent proccess, id: %d\n", getpid());
+     Printf("I am Parent proccess, id: %d, value i:%d\n", getpid(), i);
      Printf("Child proccess, id: %d\n", child);
+
 	}else{
-     Printf("Child proccess here with and id: %d\n", child);
+     i=99795
+     Printf("Child proccess here with and id: %d and i: %d\n", child, i);
 	}
 
     Printf("MakeProcs: %d is done now and forking worked.\n", getpid());
