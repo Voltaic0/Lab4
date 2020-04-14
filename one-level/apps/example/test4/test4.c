@@ -4,10 +4,10 @@
 
 int test4Helper(int x) {
     if (x == 0) {
-        return;
+        return x;
     }
 
-    return (x - 1);
+    return test4Helper(x - 1);
 }
 
 
