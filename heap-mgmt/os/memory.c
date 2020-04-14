@@ -299,11 +299,11 @@ void *malloc(PCB* pcb, int memsize){
     if(memsize < (0x1 << 5)){
      ord = 0;
 	}else{
-     for(ord = 0; ord <= 7; ord++){
-      if((((memsize-1) >> (5 + ord)) == 0) && (((memsize -1) >> (5 + ord -1))){
-       break;
-	  }
-	 }
+        for(ord = 0; ord <= 7; ord++){
+            if((((memsize-1) >> (5 + ord)) == 0) && ((memsize -1) >> (5 + ord -1))){
+                break;
+	        }
+	    }
 	}
 
     for(i = 0; i < 128; i += (1 << (pcb->heapMgmt[i] & (0x7f)))){
