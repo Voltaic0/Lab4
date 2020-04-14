@@ -17,13 +17,13 @@ void main (int argc, char *argv[])
     four = malloc(15);
 
     Printf("mfree Tests:\n");
-    Printf("Free 10.\n")
+    Printf("Free 10.\n");
     mfree(one);
-    Printf("Free 100.\n")
+    Printf("Free 100.\n");
     mfree(two);
-    Printf("Free 1000.\n")
+    Printf("Free 1000.\n");
     mfree(three);
-    Printf("Free 15.\n")
+    Printf("Free 15.\n");
     mfree(four);
 
     Printf("Malloc and mfree tests complete");

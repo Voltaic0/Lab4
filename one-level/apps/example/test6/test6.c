@@ -2,16 +2,6 @@
 #include "misc.h"
 #include "os/memory_constants.h"
 
-int test4Helper(int x) {
-    if (x == 0) {
-        return x;
-    }
-
-    return (1 + test4Helper(x - 1));
-}
-
-
-
 void main (int argc, char *argv[])
 {
   sem_t s_procs_completed; // Semaphore to signal the original process that we're done
