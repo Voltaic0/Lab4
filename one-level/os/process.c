@@ -435,8 +435,8 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   //---------------------------------------------------------
   dbprintf ('p', "Get Here.  Allocating pages for new process.\n");
     //system stack
-  pcb -> sysStackArea = MemoryAllocPage(); //added mult to pagesize (1 << MEM_L1FIELD_FIRST_BITNUM)
-  stackframe = (uint32 *)(pcb -> sysStackArea | ((1 << MEM_L1FIELD_FIRST_BITNUM) - 4)); //changed bitwise or to '+'
+  pcb -> sysStackArea = MemoryAllocPage() * MEM_PAGESIZE; 
+  stackframe = (uint32 *)(pcb -> sysStackArea + MEM_PAGESIZE - 4); 
 
   pcb -> npages = 4;
   for (i = 0; i < 4; i++) {
