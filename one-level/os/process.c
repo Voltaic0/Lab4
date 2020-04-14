@@ -848,6 +848,7 @@ void main (int argc, char *argv[])
   }
 
   FsModuleInit ();
+  printf("Fs module init!\n");
   for (i = 0; i < argc; i++) 
   {
     if (argv[i][0] == '-') 
