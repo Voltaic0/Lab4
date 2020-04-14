@@ -1014,8 +1014,8 @@ int ProcessRealFork(){
 
     parentPid = GetCurrentPid();
     intrs = DisableIntrs();
-    dbprintf('i', 'Old interrupt value was 0x%x \n', (int)intrs);
-    dbprintf('p', 'Entering ProcessRealFork.\n');
+    dbprintf('i', "Old interrupt value was 0x%x \n", (int)intrs);
+    dbprintf('p', "Entering ProcessRealFork.\n");
     
     if(AQueueEmpty(&freepcbs)){
      printf("FATAL ERRROR: No free processes!\n");
@@ -1023,9 +1023,9 @@ int ProcessRealFork(){
 	}
 
     child = (PCB*)(AQueueObject(AQueueFirst(&freepcbs)));
-    dbprintf('p', 'Got a link @ 0x%x\n', (int)(child->l));
+    dbprintf('p', "Got a link @ 0x%x\n", (int)(child->l));
 
-    if(AQueueRemove(&(pcb->l)) != QUEUE_SUCCESS){
+    if(AQueueRemove(&(child->l)) != QUEUE_SUCCESS){
      printf("FATAL ERROR: could not remove link from freepcbsQueue in ProcessRealFork.\n");
      exitsim();
 	}
@@ -1042,14 +1042,14 @@ int ProcessRealFork(){
 	}
      
      bcopy((char *)currentPCB, (char *)child, sizeof(PCB));
-     page = MemoryAllocPage();
+     tempPage = MemoryAllocPage();
 
-     if(page <0){
+     if(tempPage <0){
         printf("Failed to allocate page.\n");
         return PROCESS_FAIL;
 	 }
 
-     child->sysStackArea = page * MEM_PAGESIZE;
+     child->sysStackArea = tempPage * MEM_PAGESIZE;
 
      bcopy((char *)(currentPCB->sysStackArea), (char *)(child->sysStackArea), MEM_PAGESIZE);
 
@@ -1058,7 +1058,7 @@ int ProcessRealFork(){
      child->sysStackPtr = stackframe;
      child->currentSavedFrame = stackframe;
 
-     stackframe[PROCESS_STACK_PTBASE] = (uint 32)(child->pagetable);
+     stackframe[PROCESS_STACK_PTBASE] = (uint32)(child->pagetable);
 
      intrs = DisableIntrs();
 
