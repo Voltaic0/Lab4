@@ -1014,8 +1014,8 @@ int ProcessRealFork(){
 
     parentPid = GetCurrentPid();
     intrs = DisableIntrs();
-    dbprintf("I", "Old interrupt value was 0x%x.\n", intrs);
-    dbprintf("p", "Entering ProcessRealFork.\n");
+    dbprintf('i', 'Old interrupt value was 0x%x.\n', (int)intrs);
+    dbprintf('p', 'Entering ProcessRealFork.\n');
     
     if(AQueueEmpty(&freepcbs)){
      printf("FATAL ERRROR: No free processes!\n");
@@ -1023,7 +1023,7 @@ int ProcessRealFork(){
 	}
 
     child = (PCB*)(AQueueObject(AQueueFirst(&freepcbs)));
-    dbprintf("p", 'Got a link @ 0x%x\n', (int)(child->l));
+    dbprintf('p', 'Got a link @ 0x%x\n', (int)(child->l));
 
     if(AQueueRemove(&(pcb->l)) != QUEUE_SUCCESS){
      printf("FATAL ERROR: could not remove link from freepcbsQueue in ProcessRealFork.\n");

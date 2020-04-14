@@ -360,6 +360,7 @@ dointerrupt (unsigned int cause, unsigned int iar, unsigned int isr,
       break;
     case TRAP_PROCESS_FORK:
       dbprintf ('t', "Got a fork trap!\n");
+      ProcessRealFork();
       break;
     case TRAP_PROCESS_SLEEP:
       dbprintf ('t', "Got a process sleep trap!\n");
@@ -490,6 +491,9 @@ dointerrupt (unsigned int cause, unsigned int iar, unsigned int isr,
       ihandle = GetIntFromTrapArg(trapArgs, isr & DLX_STATUS_SYSMODE);
       ihandle = CondHandleBroadcast(ihandle);
       ProcessSetResult(currentPCB, ihandle); //Return 1 or 0
+      break;
+    case TRAP_ROP_ACCESS:
+      MemoryROP(currentPCB);
       break;
     default:
       printf ("Got an unrecognized trap (0x%x) - exiting!\n",
