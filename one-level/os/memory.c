@@ -102,7 +102,7 @@ uint32 MemoryTranslateUserToSystem (PCB *pcb, uint32 addr) {
      if(!(pcb->pagetable[virtPageNum] & MEM_PTE_VALID)){ //is this supposed to be virtPageNum?
         pcb->currentSavedFrame[PROCESS_STACK_FAULT] = addr;
         if(MemoryPageFaultHandler(pcb) == MEM_FAIL){
-            printf("Failed to allocate memory\n")
+            printf("Failed to allocate memory\n");
             return 0;  
         }
         pcb->npages += 1;
