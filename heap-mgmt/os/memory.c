@@ -342,7 +342,7 @@ void *malloc(PCB* pcb, int memsize){
     printf("Allocated the block: order = %d, addr = %d, requested mem size = %d, block size = %d\n", ord, location << 5, memsize, (1 << ord) << 5);
 
 
-    return ((void *)(pcb->heapAddrLoc + (location << 5));
+    return ((void *)(pcb->heapAddrLoc + (location << 5)));
 }
 int mfree(PCB* pcb, void *ptr){
     int freeLoc = ((int)ptr & MEM_ADDRESS_OFFSET_MASK) >> 5;
