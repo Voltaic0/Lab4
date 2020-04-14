@@ -67,8 +67,9 @@ void main (int argc, char *argv[])
     Exit();
   }
 
+  //still need test4
 
-  //Test5
+  //Test5 (works)
   Printf("makeprocs (%d): Creating %d hello world's in a row for test5, but only one runs at a time\n", getpid(), 100);
   for(i=0; i<100; i++) {
     Printf("makeprocs (%d): Creating hello world #%d\n", getpid(), i);
@@ -78,6 +79,8 @@ void main (int argc, char *argv[])
       Exit();
     }
   }
+
+  //and test6
 
   Printf("-------------------------------------------------------------------------------------\n");
   Printf("makeprocs (%d): All other processes completed, exiting main process.\n", getpid());
