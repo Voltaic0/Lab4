@@ -364,7 +364,7 @@ int mfree(PCB* pcb, void *ptr){
         pcb->heapMgmt[i] = 0x7f & ord;
 	 }
      parentBegin = parentBegin >> (ord + 1) << (ord +1);
-     parentFinal = parentBegin + (1 << (order + 1));
+     parentFinal = parentBegin + (1 << (ord + 1));
 
      if(((pcb->heapMgmt[parentBegin] & 0x80) != 0) || ((pcb->heapMgmt[parentBegin] & 0x7f) != ord) || ((pcb->heapMgmt[parentFinal-1] & 0x80) != 0) || ((pcb->heapMgmt[parentFinal-1] & 0x7f) != ord)){
         break;
