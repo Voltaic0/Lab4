@@ -126,7 +126,7 @@ void ProcessSetStatus (PCB *pcb, int status) {
 void ProcessFreeResources (PCB *pcb) {
   
   int i = 0;
-  dbprintf('p', "Entering ProcessFreeResources");
+
   // Allocate a new link for this pcb on the freepcbs queue
   if ((pcb->l = AQueueAllocLink(pcb)) == NULL) {
     printf("FATAL ERROR: could not get Queue Link in ProcessFreeResources!\n");
@@ -488,6 +488,7 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   // previous frame.
   dbprintf('m', "ProcessFork: stackframe = 0x%x\n", (int)stackframe);
   stackframe[PROCESS_STACK_PREV_FRAME] = 0;
+  dbprintf('m', "ERROR.\n");
 
   //----------------------------------------------------------------------
   // STUDENT: setup the PTBASE, PTBITS, and PTSIZE here on the current
