@@ -14,7 +14,7 @@ void main (int argc, char *argv[])
 
   // Convert the command-line strings into integers for use as handles
   s_procs_completed = dstrtol(argv[1], NULL, 10);
-  invalidAddress = MEM_MAX_VIRTUAL_ADDRESS - 4;
+  invalidAddress = MEM_MAX_VIRTUAL_ADDRESS;
 
   // Now print a message to show that everything worked
   Printf("Attempting to access past MAX Virtual Address (%d): test2\n", getpid());
@@ -26,6 +26,6 @@ void main (int argc, char *argv[])
   }
 
   Printf("Attempting to access address: %d\n", invalidAddress);
-  Printf("Accessing the value...", * (invalidAddress));
+  Printf("Accessing the value...", *invalidAddress);
   Printf("test2 (%d): Done!\n", getpid());
 }
