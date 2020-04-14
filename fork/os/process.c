@@ -1014,7 +1014,7 @@ int ProcessRealFork(){
 
     parentPid = GetCurrentPid();
     intrs = DisableIntrs();
-    dbprintf('i', 'Old interrupt value was 0x%x.\n', (int)intrs);
+    dbprintf('i', 'Old interrupt value was 0x%x \n', (int)intrs);
     dbprintf('p', 'Entering ProcessRealFork.\n');
     
     if(AQueueEmpty(&freepcbs)){
