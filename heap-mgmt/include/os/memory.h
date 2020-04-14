@@ -31,3 +31,5 @@ void MemoryFreePage(uint32);
 uint32 MemorySetupPte(uint32);
 void *malloc(PCB* pcb, int memsize);
 int mfree(PCB* pcb, void *ptr);
+
+void MemoryHeapTreeInit(PCB *pcb);
