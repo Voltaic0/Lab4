@@ -102,6 +102,7 @@ uint32 MemoryTranslateUserToSystem (PCB *pcb, uint32 addr) {
         if(MemoryPageFaultHandler(pcb) == MEM_FAIL){
             return 0;  
         }
+        pcb->npages += 1;
      }
      physicalAddress = ((pcb->pagetable[virtPageNum] >> MEM_L1FIELD_FIRST_BITNUM) << MEM_L1FIELD_FIRST_BITNUM) | offsetFromAdd;
      return physicalAddress;
@@ -263,13 +264,13 @@ int MemoryAllocPage(void) {
     return MEM_FAIL;  //should something else happen here if there are no free freemap elements?
   }
 
-  //find first bit set to 1 //STUCK HERE
+  //find first bit set to 1 /
   while ((freemap[i] & (1 << bitPos)) == 0) {
     bitPos++;
   }
   dbprintf ('m', "After loop in MemoryAllocPage.\n");
-  freemap[i] = (freemap[i] & invert(1 << bitPos));
-  pageNumber = (i * 32) + bitPos;
+  freemap[i] = (freemap[i] | (1 << bitPos));
+  pageNumber = ((i << 5) + bitPos) << MEM_L1FIELD_FIRST_BITNUM;
   nfreepages--; //decrement number freepages
   return pageNumber; //need to return page number
 }

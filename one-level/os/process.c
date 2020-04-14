@@ -146,7 +146,7 @@ void ProcessFreeResources (PCB *pcb) {
 
   for(i=0; i < MEM_L1TABLE_SIZE; i++){
     if(pcb->pagetable[i] & MEM_PTE_VALID){
-         MemoryFreePage(pcb->pagetable[i] / MEM_PAGESIZE);
+         MemoryFreePage((pcb->pagetable[i] & MEM_PTE_MASK) / MEM_PAGESIZE);
          pcb->pagetable[i]=0;
 
     }
@@ -433,7 +433,7 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   // equal to the last 4-byte-aligned address in physical page
   // for the system stack.
   //---------------------------------------------------------
-  dbprintf ('p', "Get Here.\n");
+  dbprintf ('p', "Get Here.  Allocating pages for new process.\n");
   pcb -> npages = 4;
   for (i = 0; i < 4; i++) {
     newPage = MemoryAllocPage();
@@ -449,8 +449,9 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   if (newPage < 0) {
     exitsim();
   }
-  pcb -> pagetable[MEM_MAX_VIRTUAL_ADDRESS >> MEM_L1FIELD_FIRST_BITNUM] = MemorySetupPte(newPage); //stack starts from highest address
   pcb -> npages++;
+  pcb -> pagetable[(MEM_MAX_VIRTUAL_ADDRESS >> MEM_L1FIELD_FIRST_BITNUM)] = MemorySetupPte(newPage); //stack starts from highest address
+  
   dbprintf ('p', "Allocated userstack.\n");
 
   //system stack
@@ -492,7 +493,8 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   // STUDENT: setup the PTBASE, PTBITS, and PTSIZE here on the current
   // stack frame.
   //----------------------------------------------------------------------
-  stackframe[PROCESS_STACK_PTBASE] = &(pcb->pagetable[0]); //base address of the level one pagetable
+  dbprintf('p',"Setting up stack frame ptbase, ptbits, ptsize\n");
+  stackframe[PROCESS_STACK_PTBASE] = (uint32) &(pcb->pagetable[0]); //base address of the level one pagetable
   stackframe[PROCESS_STACK_PTBITS] = (MEM_L1FIELD_FIRST_BITNUM << 16) | MEM_L1FIELD_FIRST_BITNUM; 
   stackframe[PROCESS_STACK_PTSIZE] = MEM_L1TABLE_SIZE; //max number of entries in level 1 pagetable
 
