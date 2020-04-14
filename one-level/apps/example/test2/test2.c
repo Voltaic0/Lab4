@@ -26,6 +26,6 @@ void main (int argc, char *argv[])
   }
 
   Printf("Attempting to access address: %d\n", invalidAddress);
-  Printf("Accessing the value...", *invalidAddress);
+  Printf("Accessing the value...\n %d!\n", *invalidAddress);
   Printf("test2 (%d): Done!\n", getpid());
 }
