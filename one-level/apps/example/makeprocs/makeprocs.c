@@ -33,8 +33,8 @@ void main (int argc, char *argv[])
   // on the command line, so we must first convert them from ints to strings.
   ditoa(s_procs_completed, s_procs_completed_str);
 
-  // Create Hello World processes
-  /*
+  // Create Hello World processes (works)
+  
   Printf("-------------------------------------------------------------------------------------\n");
   Printf("makeprocs (%d): Creating %d hello world's in a row for test1, but only one runs at a time\n", getpid(), num_hello_world);
   for(i=0; i<num_hello_world; i++) {
@@ -45,9 +45,8 @@ void main (int argc, char *argv[])
       Exit();
     }
   }
-  */
 
-  //Test2
+  //Test2 (works correctly)
   Printf("-------------------------------------------------------------------------------------\n");
   Printf("makeprocs (%d): Test 2, Attempting to access outside of max bounds\n", getpid(), num_hello_world);
   Printf("makeprocs (%d): Creating process #%d\n", getpid(), i);
