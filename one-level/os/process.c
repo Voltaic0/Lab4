@@ -434,6 +434,10 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   // for the system stack.
   //---------------------------------------------------------
   dbprintf ('p', "Get Here.  Allocating pages for new process.\n");
+    //system stack
+  pcb -> sysStackArea = MemoryAllocPage(); //added mult to pagesize (1 << MEM_L1FIELD_FIRST_BITNUM)
+  stackframe = (uint32 *)(pcb -> sysStackArea | ((1 << MEM_L1FIELD_FIRST_BITNUM) - 4)); //changed bitwise or to '+'
+
   pcb -> npages = 4;
   for (i = 0; i < 4; i++) {
     newPage = MemoryAllocPage();
@@ -454,14 +458,10 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   
   dbprintf ('p', "Allocated userstack.\n");
 
-  //system stack
-  newPage = MemoryAllocPage();
-  if (newPage < 0) {
-    exitsim();
-  }
 
-  pcb -> sysStackArea = newPage * (0x1 << MEM_L1FIELD_FIRST_BITNUM); //added mult to pagesize (1 << MEM_L1FIELD_FIRST_BITNUM)
-  stackframe = (uint32 *)(pcb -> sysStackArea + ((0x1 << MEM_L1FIELD_FIRST_BITNUM) - 4)); //changed bitwise or to '+'
+
+
+ 
   dbprintf ('p', "Allocated system stack.\n");
 
 
