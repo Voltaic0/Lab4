@@ -89,18 +89,20 @@ void MemorySetFreemap(int pageNum){
 //
 //----------------------------------------------------------------------
 uint32 MemoryTranslateUserToSystem (PCB *pcb, uint32 addr) {
-    printf("Entering TranslateUserToSystem\n");
     int virtPageNum = addr >> MEM_L1FIELD_FIRST_BITNUM;
     uint32 offsetFromAdd = addr & MEM_ADDRESS_OFFSET_MASK;
     uint32 physicalAddress;
+    printf("Entering TranslateUserToSystem\n");
 
     if(addr > MEM_MAX_VIRTUAL_ADDRESS){
-     return MEM_FAIL;
+      printf("Address too large TranslateUserToSystem\n");
+      return MEM_FAIL;
     }
 
      if(!(pcb->pagetable[virtPageNum] & MEM_PTE_VALID)){ //is this supposed to be virtPageNum?
         pcb->currentSavedFrame[PROCESS_STACK_FAULT] = addr;
         if(MemoryPageFaultHandler(pcb) == MEM_FAIL){
+            printf("Failed to allocate memory\n")
             return 0;  
         }
         pcb->npages += 1;
