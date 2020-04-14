@@ -89,6 +89,7 @@ void MemorySetFreemap(int pageNum){
 //
 //----------------------------------------------------------------------
 uint32 MemoryTranslateUserToSystem (PCB *pcb, uint32 addr) {
+    printf("Entering TranslateUserToSystem\n");
     int virtPageNum = addr >> MEM_L1FIELD_FIRST_BITNUM;
     uint32 offsetFromAdd = addr & MEM_ADDRESS_OFFSET_MASK;
     uint32 physicalAddress;
@@ -104,7 +105,7 @@ uint32 MemoryTranslateUserToSystem (PCB *pcb, uint32 addr) {
         }
         pcb->npages += 1;
      }
-     physicalAddress = ((pcb->pagetable[virtPageNum] >> MEM_L1FIELD_FIRST_BITNUM) << MEM_L1FIELD_FIRST_BITNUM) | offsetFromAdd;
+     physicalAddress = (((pcb->pagetable[virtPageNum] >> MEM_L1FIELD_FIRST_BITNUM) << MEM_L1FIELD_FIRST_BITNUM) & MEM_PTE_MASK) | offsetFromAdd;
      return physicalAddress;
 }
 

@@ -327,13 +327,57 @@ void *malloc(PCB* pcb, int memsize){
 		}
 
         if(smallOrd != ord){
-            printf("Created a right child node (order = %d, addr = %d, size = %d) of parent (order= %d, addr = %d, size = %d)\n", smallOrd -1, location << 5, (1 << (smallOrd-1)) << 5, smallOrd, location << 5, (1 << smallOrd) << 5);  
+            printf("Created a right child node (order = %d, addr = %d, size = %d) of parent (order= %d, addr = %d, size = %d)\n", smallOrd -1, (location + (1 << (smallOrd-1))) << 5, (1 << (smallOrd-1)) << 5, smallOrd, location << 5, (1 << smallOrd) << 5);
+            printf("Created a left child node (order = %d, addr = %d, size = %d) of parent (order= %d, addr = %d, size = %d)\n", smallOrd -1, location << 5, (1 << (smallOrd-1)) << 5, smallOrd, location << 5, (1 << smallOrd) << 5);
 		}
+        for( i = location; i < bound; i++){
+            if(smallOrd != ord){
+                pcb->heapMgmt[i] = smallOrd -1;     
+			}else{
+                pcb->heapMgmt[i] |= 0x80;     
+			}  
+		}
+        smallOrd--;
 	}
+    printf("Allocated the block: order = %d, addr = %d, requested mem size = %d, block size = %d\n", ord, location << 5, memsize, (1 << ord) << 5);
 
-    return NULL;
+
+    return ((void *)(pcb->heapAddrLoc + (location << 5));
 }
 int mfree(PCB* pcb, void *ptr){
-    return -1;
+    int freeLoc = ((int)ptr & MEM_ADDRESS_OFFSET_MASK) >> 5;
+    int freeOrd = pcb->heapMgmt[freeLoc] & 0x7f;
+    int parentBegin = freeLoc;
+    int parentFinal = freeLoc + (1 << freeOrd);
+    int ord = freeOrd;
+    int i;
+
+    while(1){
+     if(ord == freeOrd){
+      printf("Free the block: order = %d, addr = %d, size = %d\n", ord, parentBegin << 5, (1 << order) << 5);
+	 }else{
+        printf("Coalesced buddy nodes (order = %d, addr = %d, size = %d) & (order = %d, addr = %d, size = %d)", ord-1, parentBegin << 5, (1 << (ord -1)) << 5, ord - 1, (parentBegin +(1 << (ord - 1))) << 5, (1 << (ord - 1)) << 5);
+        printf("into the parent node (order = %d, addr = %d)", ord, parentBegin << 5, (1 << ord) << 5);
+
+	 }
+     for(i = parentBegin; i < parentFinal; i++){
+        pcb->heapMgmt[i] = 0x7f & ord;
+	 }
+     parentBegin = parentBegin >> (ord + 1) << (ord +1);
+     parentFinal = parentBegin + (1 << (order + 1));
+
+     if((pcb->heapMgmt[parentBegin] & 0x80) != 0) || (pcb->heapMgmt[parentBegin] & 0x7f) != ord) || (pcb->heapMgmt[parentFinal-1] & 0x80) != 0) || (pcb->heapMgmt[parentFinal-1] & 0x7f) != ord)){
+        break;
+	 }
+     ord++;
+     if(ord > 7){
+        break;
+	 }
+     
+
+	}
+
+
+    return 0;
 }
 

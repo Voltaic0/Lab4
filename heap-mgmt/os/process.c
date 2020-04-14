@@ -155,9 +155,10 @@ void ProcessFreeResources (PCB *pcb) {
     }
      
   }
-  for(i = 0; i < (MEM_PAGESIZE / 4); i++){
-      pcb->heapMgmt[i] = 0;
+  for(i = 0; i < 128; i++){
+      pcb->heapMgmt[i] = 7;
   }
+  pcb->heapAddrLoc = 4 << MEM_L1FIELD_FIRST_BITNUM;
   MemoryFreePage(pcb->sysStackArea / MEM_PAGESIZE);
 
   ProcessSetStatus (pcb, PROCESS_STATUS_FREE);
