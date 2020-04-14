@@ -449,8 +449,8 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   if (newPage < 0) {
     exitsim();
   }
-  pcb -> npages++;
-  pcb -> pagetable[(MEM_MAX_VIRTUAL_ADDRESS >> MEM_L1FIELD_FIRST_BITNUM)] = MemorySetupPte(newPage); //stack starts from highest address
+  pcb -> npages = 6;
+  pcb -> pagetable[MEM_L1TABLE_SIZE-1] = MemorySetupPte(newPage); //stack starts from highest address
   
   dbprintf ('p', "Allocated userstack.\n");
 
@@ -460,8 +460,8 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
     exitsim();
   }
 
-  pcb -> sysStackArea = newPage * MEM_PAGESIZE;
-  stackframe = (uint32 *)(pcb -> sysStackArea + MEM_PAGESIZE) - 4;
+  pcb -> sysStackArea = newPage;
+  stackframe = (uint32 *)(pcb -> sysStackArea | ((1 << MEM_L1FIELD_FIRST_BITNUM) - 4));
   dbprintf ('p', "Allocated system stack.\n");
 
 
