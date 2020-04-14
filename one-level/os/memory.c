@@ -249,8 +249,6 @@ int MemoryAllocPage(void) {
   int i = 0;
   uint32 bitPos = 0;
   uint32 pageNumber;
-  int test;
-  test = 1 << 5;
 
   dbprintf ('m', "Allocating Memory Page in MemoryAllocPage.\n");
   if (nfreepages == 0) {
@@ -272,8 +270,7 @@ int MemoryAllocPage(void) {
   }
   dbprintf ('m', "After loop in MemoryAllocPage.\n");
   freemap[i] = (freemap[i] & invert(1 << bitPos));
-  pageNumber = ((1 << 5) + bitPos) << MEM_L1FIELD_FIRST_BITNUM;
-  printf ("i: %d\n", test);
+  pageNumber = (i * 32) + bitPos;
   nfreepages--; //decrement number freepages
   return pageNumber; //need to return page number
 }
