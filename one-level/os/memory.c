@@ -70,7 +70,7 @@ void MemoryModuleInit() {
       MemorySetFreemap(i);
 	}
 
-    dbprintf("m", "MemoryModuleInit worked and made %d pages!\n", (int)nfreepages);
+    dbprintf('m', "MemoryModuleInit worked and made %d pages!\n", (int)nfreepages);
 
 }
 void MemorySetFreemap(int pageNum){
@@ -221,7 +221,7 @@ int MemoryPageFaultHandler(PCB *pcb) {
   if (faultingAddr >= userStackAddr) {
     //not a seg fault
     //allocate a new page
-    printf("Not a segfault...Allocating a new page")
+    printf("Not a segfault...Allocating a new page");
 
     newPage = MemoryAllocPage();
     if (newPage < 0) {
