@@ -460,8 +460,8 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
     exitsim();
   }
 
-  pcb -> sysStackArea = newPage * (1 << MEM_L1FIELD_FIRST_BITNUM); //added mult to pagesize (1 << MEM_L1FIELD_FIRST_BITNUM)
-  stackframe = (uint32 *)(pcb -> sysStackArea + ((1 << MEM_L1FIELD_FIRST_BITNUM) - 4)); //changed bitwise or to '+'
+  pcb -> sysStackArea = newPage * (0x1 << MEM_L1FIELD_FIRST_BITNUM); //added mult to pagesize (1 << MEM_L1FIELD_FIRST_BITNUM)
+  stackframe = (uint32 *)(pcb -> sysStackArea + ((0x1 << MEM_L1FIELD_FIRST_BITNUM) - 4)); //changed bitwise or to '+'
   dbprintf ('p', "Allocated system stack.\n");
 
 
