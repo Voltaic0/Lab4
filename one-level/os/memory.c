@@ -213,12 +213,12 @@ int MemoryPageFaultHandler(PCB *pcb) {
   int userStackPageNum;
   int newPage;
   faultingAddr = pcb -> currentSavedFrame[PROCESS_STACK_FAULT];
-  userStackAddr = (pcb -> currentSavedFrame[PROCESS_STACK_USER_STACKPOINTER]);
+  userStackAddr = pcb -> currentSavedFrame[PROCESS_STACK_USER_STACKPOINTER];
   userStackAddr &= 0x1FF000;
   printf("faulting addr = 0x%x, userStackAddr = 0x%x\n", faultingAddr, userStackAddr);
 
   faultPageNum = faultingAddr >> MEM_L1FIELD_FIRST_BITNUM;
-  userStackPageNum = userStackAddr >> MEM_L1FIELD_FIRST_BITNUM;
+  //userStackPageNum = userStackAddr >> MEM_L1FIELD_FIRST_BITNUM;
   printf("Entering MemoryPageFaultHandler, PID: %d\n", GetCurrentPid());
   if (faultingAddr >= userStackAddr) {
     //not a seg fault

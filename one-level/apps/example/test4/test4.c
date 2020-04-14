@@ -16,6 +16,7 @@ void main (int argc, char *argv[])
 {
   sem_t s_procs_completed; // Semaphore to signal the original process that we're done
   int* invalidAddress;
+  int x;
 
   if (argc != 2) { 
     Printf("Usage: %s <handle_to_procs_completed_semaphore>\n"); 
@@ -29,7 +30,7 @@ void main (int argc, char *argv[])
   // Now print a message to show that everything worked
   Printf("Attempting to grow the user function call stack larger than one page (%d): test4\n", getpid());
 
-  test4Helper(1025);
+  x = test4Helper(1000);
 
   // Signal the semaphore to tell the original process that we're done
   if(sem_signal(s_procs_completed) != SYNC_SUCCESS) {

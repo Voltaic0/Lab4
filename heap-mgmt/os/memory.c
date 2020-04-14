@@ -287,6 +287,52 @@ void MemoryFreePage(uint32 page) {
   nfreepages++;
 }
 void *malloc(PCB* pcb, int memsize){
+    uint32 blocks = 0, currentFree = 0, oldFree = 0, index =0, prevIndex =0;
+    int i;
+
+    if(memsize < 0 || memsize > MEM_PAGESIZE){
+     printf("Asked for too much memory.\n");
+     return NULL;
+	}
+
+    if(memsize % 4 != 0){
+     blocks = memsize / 4 + 1;
+	}else{
+     blocks = memsize /4;
+	}
+
+    for(i = 0; i < MEM_PAGESIZE / 4; i++){
+     if(pcb->heapMgmt[i] == 0){
+      if(!currentFree){
+       index = i;
+	  }
+      currentFree++;
+	 }else{
+      if((currentFree >= blocks) && (currentFree < oldFree)){
+       oldFree = currentFree;
+       prevIndex = index;
+	  }
+      currentFree = 0;
+	 }
+	}
+
+    if(!currentFree && !oldFree){
+     printf("Unable to allocate.\n");
+     return NULL;
+	}
+
+    if((currentFree >= blocks) && ((currentFree < oldFree) || !oldFree)){
+     oldFree = currentFree;
+     prevIndex = index;
+
+	}
+
+    for( i = prevIndex; (i < blocks + prevIndex) && i < MEM_PAGESIZE / 4; i++){
+     pcb->heapMgmt[i] = blocks - (i - prevIndex);
+	}
+
+
+
     return NULL;
 }
 int mfree(PCB* pcb, void *ptr){
