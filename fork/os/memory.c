@@ -75,7 +75,7 @@ void MemoryModuleInit() {
      pageCounter[i] =1;
 	}
 
-    dbprintf('m', 'MemoryModuleInit worked and made %d pages!\n', (int)nfreepages);
+    dbprintf('m', 'MemoryModuleInit %d pages\n', (int)nfreepages);
 
 }
 void MemorySetFreemap(int pageNum){
@@ -304,7 +304,7 @@ void MemorytrackPageUsage(uint32 pte){
     pageNum = ((pte & MEM_PTE_MASK) / MEM_PAGESIZE);
 
     pageCounter[pageNum]++;
-    dbprintf('m', 'MemorytrackPageUsage incremented: %x\n', pageNum);
+    dbprintf('m', 'MemorytrackPageUsage incremented %x\n', pageNum);
     return;
 }
 void MemoryROP(PCB * pcb){
@@ -312,7 +312,7 @@ void MemoryROP(PCB * pcb){
     uint32 parent;
     uint32 page;
     uint32 addr = pcb->currentSavedFrame[PROCESS_STACK_FAULT];
-    dbprintf('m', 'MemoryROP.\n');
+    dbprintf('m', 'MemoryROP\n');
     
 
     pageAddr = addr >> MEM_L1FIELD_FIRST_BITNUM;
@@ -328,6 +328,6 @@ void MemoryROP(PCB * pcb){
 	}else{
      pcb->pagetable[pageAddr] &= invert(MEM_PTE_READONLY);
 	}
-    dbprintf("m", "MemoryROP ENded.\n");
+    dbprintf("m", "MemoryROP ENded\n");
 
 }
