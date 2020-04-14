@@ -247,8 +247,8 @@ int MemoryPageFaultHandler(PCB *pcb) {
 
 int MemoryAllocPage(void) {
   int i = 0;
-  int bitPos = 0;
-  int pageNumber;
+  uint32 bitPos = 0;
+  uint32 pageNumber;
 
   dbprintf ('m', "Allocating Memory Page in MemoryAllocPage.\n");
   if (nfreepages == 0) {
@@ -269,8 +269,9 @@ int MemoryAllocPage(void) {
     bitPos++;
   }
   dbprintf ('m', "After loop in MemoryAllocPage.\n");
-  freemap[i] = (freemap[i] | (1 << bitPos));
+  freemap[i] = (freemap[i] & invert(1 << bitPos));
   pageNumber = ((i << 5) + bitPos) << MEM_L1FIELD_FIRST_BITNUM;
+  printf ("i: %d\n", &i);
   nfreepages--; //decrement number freepages
   return pageNumber; //need to return page number
 }
