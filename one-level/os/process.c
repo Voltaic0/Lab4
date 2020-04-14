@@ -124,9 +124,9 @@ void ProcessSetStatus (PCB *pcb, int status) {
 //
 //----------------------------------------------------------------------
 void ProcessFreeResources (PCB *pcb) {
-  dbprintf('p', "Entering ProcessFreeResources");
+  
   int i = 0;
-
+  dbprintf('p', "Entering ProcessFreeResources");
   // Allocate a new link for this pcb on the freepcbs queue
   if ((pcb->l = AQueueAllocLink(pcb)) == NULL) {
     printf("FATAL ERROR: could not get Queue Link in ProcessFreeResources!\n");
