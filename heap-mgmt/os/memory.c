@@ -354,10 +354,10 @@ int mfree(PCB* pcb, void *ptr){
 
     while(1){
      if(ord == freeOrd){
-      printf("Free the block: order = %d, addr = %d, size = %d\n", ord, parentBegin << 5, (1 << order) << 5);
+      printf("Free the block: order = %d, addr = %d, size = %d\n", ord, parentBegin << 5, (1 << ord) << 5);
 	 }else{
         printf("Coalesced buddy nodes (order = %d, addr = %d, size = %d) & (order = %d, addr = %d, size = %d)", ord-1, parentBegin << 5, (1 << (ord -1)) << 5, ord - 1, (parentBegin +(1 << (ord - 1))) << 5, (1 << (ord - 1)) << 5);
-        printf("into the parent node (order = %d, addr = %d)", ord, parentBegin << 5, (1 << ord) << 5);
+        printf("into the parent node (order = %d, addr = %d, size = %d)\n", ord, parentBegin << 5, (1 << ord) << 5);
 
 	 }
      for(i = parentBegin; i < parentFinal; i++){
@@ -366,16 +366,14 @@ int mfree(PCB* pcb, void *ptr){
      parentBegin = parentBegin >> (ord + 1) << (ord +1);
      parentFinal = parentBegin + (1 << (order + 1));
 
-     if((pcb->heapMgmt[parentBegin] & 0x80) != 0) || (pcb->heapMgmt[parentBegin] & 0x7f) != ord) || (pcb->heapMgmt[parentFinal-1] & 0x80) != 0) || (pcb->heapMgmt[parentFinal-1] & 0x7f) != ord)){
+     if(((pcb->heapMgmt[parentBegin] & 0x80) != 0) || ((pcb->heapMgmt[parentBegin] & 0x7f) != ord) || ((pcb->heapMgmt[parentFinal-1] & 0x80) != 0) || ((pcb->heapMgmt[parentFinal-1] & 0x7f) != ord)){
         break;
 	 }
      ord++;
      if(ord > 7){
         break;
 	 }
-     
-
-	}
+    }
 
 
     return 0;
