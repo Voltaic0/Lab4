@@ -436,6 +436,7 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   //system stack
   pcb -> sysStackArea = MemoryAllocPage() * MEM_PAGESIZE; 
   stackframe = (uint32 *)(pcb -> sysStackArea + MEM_PAGESIZE - 4); 
+  dbprintf ('p', "Allocated system stack.\n");
 
   pcb -> npages = 4;
   for (i = 0; i < 4; i++) {
@@ -456,12 +457,6 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   pcb -> pagetable[MEM_L1TABLE_SIZE-1] = MemorySetupPte(newPage); //stack starts from highest address
   
   dbprintf ('p', "Allocated userstack.\n");
-
-
-
-
- 
-  dbprintf ('p', "Allocated system stack.\n");
 
 
   // Now that the stack frame points at the bottom of the system stack memory area, we need to
@@ -843,7 +838,6 @@ void main (int argc, char *argv[])
   printf ("Got %d arguments.\n", argc);
   printf ("Available memory: 0x%x -> 0x%x.\n", (int)lastosaddress, MemoryGetSize ());
   printf ("Argument count is %d.\n", argc);
-  printf ("TEST\n");
   for (i = 0; i < argc; i++) {
     printf ("Argument %d is %s.\n", i, argv[i]);
   }
