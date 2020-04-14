@@ -221,6 +221,7 @@ int MemoryPageFaultHandler(PCB *pcb) {
   if (faultingAddr >= userStackAddr) {
     //not a seg fault
     //allocate a new page
+    printf("Not a segfault...Allocating a new page")
 
     newPage = MemoryAllocPage();
     if (newPage < 0) {
@@ -235,7 +236,7 @@ int MemoryPageFaultHandler(PCB *pcb) {
   }
 
   //else seg fault
-  printf ("Segfault from PageFaultHandler successful\n");
+  printf ("Segfault from PageFaultHandler\n");
   ProcessKill();
   return MEM_FAIL;
 }

@@ -29,7 +29,7 @@ void main (int argc, char *argv[])
   // Now print a message to show that everything worked
   Printf("Attempting to grow the user function call stack larger than one page (%d): test4\n", getpid());
 
-  test4Helper(1000);
+  test4Helper(1025);
 
   // Signal the semaphore to tell the original process that we're done
   if(sem_signal(s_procs_completed) != SYNC_SUCCESS) {
