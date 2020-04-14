@@ -20,7 +20,7 @@
 
 //--------------------------------------------------------
 #define MEM_L1FIELD_FIRST_BITNUM 12
-#define MEM_MAX_VIRTUAL_ADDRESS 0xFFFFF
+#define MEM_MAX_VIRTUAL_ADDRESS 0x0fffff
 #define MEM_PTE_READONLY 0x4
 #define MEM_PTE_DIRTY 0x2
 #define MEM_PTE_VALID 0x1
