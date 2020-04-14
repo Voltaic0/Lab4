@@ -461,7 +461,7 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   }
 
   pcb -> sysStackArea = newPage;
-  stackframe = (uint32 *)(pcb -> sysStackArea | ((1 << MEM_L1FIELD_FIRST_BITNUM) - 4));
+  stackframe = (uint32 *)(pcb -> sysStackArea + ((1 << MEM_L1FIELD_FIRST_BITNUM) - 4)); //changed bitwise or to '+'
   dbprintf ('p', "Allocated system stack.\n");
 
 
