@@ -5,6 +5,7 @@
 #define TEST1 "test1.dlx.obj"
 #define TEST2 "test2.dlx.obj"
 #define TEST3 "test3.dlx.obj"
+#define TEST4 "test4.dlx.obj"
 
 void main (int argc, char *argv[])
 {
@@ -67,7 +68,15 @@ void main (int argc, char *argv[])
     Exit();
   }
 
-  //still need test4
+  //Test4
+  Printf("-------------------------------------------------------------------------------------\n");
+  Printf("makeprocs (%d): Test 4, Attempting to grow user function call stack larger than one page\n", getpid());
+  Printf("makeprocs (%d): Creating process #%d\n", getpid(), i);
+  process_create(TEST4, s_procs_completed_str, NULL);
+  if (sem_wait(s_procs_completed) != SYNC_SUCCESS) {
+    Printf("Bad semaphore s_procs_completed (%d) in %s\n", s_procs_completed, argv[0]);
+    Exit();
+  }
 
   //Test5 (works)
   Printf("makeprocs (%d): Creating %d hello world's in a row for test5, but only one runs at a time\n", getpid(), 100);
