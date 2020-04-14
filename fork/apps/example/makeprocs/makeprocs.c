@@ -24,7 +24,7 @@ void main (int argc, char *argv[])
      Printf("Child proccess, id: %d\n", child);
 
 	}else{
-     i=99795
+     i=99795;
      Printf("Child proccess here with and id: %d and i: %d\n", child, i);
 	}
 
