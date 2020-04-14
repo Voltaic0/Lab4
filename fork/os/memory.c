@@ -16,6 +16,7 @@ static uint32 freemap[16];
 static uint32 pagestart;
 static int nfreepages;
 static int freemapmax;
+static int pageCounter[MEM_MAX_PAGES];
 
 //----------------------------------------------------------------------
 //
@@ -291,4 +292,14 @@ void *malloc(PCB* pcb, int memsize){
 }
 int mfree(PCB* pcb, void *ptr){
     return -1;
+}
+
+void MemorytrackPageUsage(uint32 pte){
+    uint32 pageNum;
+
+    pageNum = ((pte & MEM_PTE_MASK) / MEM_PAGESIZE);
+
+    pageCounter[pageNum]++;
+    dbprintf("m", "MemorytrackPageUsage incremented: %x\n", pageNum);
+    return;
 }

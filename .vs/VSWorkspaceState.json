@@ -2,11 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\one-level",
+    "\\one-level\\apps\\example",
+    "\\one-level\\apps\\example\\hello_world",
     "\\one-level\\include",
-    "\\one-level\\include\\os",
     "\\one-level\\os",
     "\\simulator_source"
   ],
-  "SelectedNode": "\\one-level\\os\\memory.c",
+  "SelectedNode": "\\one-level\\os\\process.c",
   "PreviewInSolutionExplorer": false
 }
