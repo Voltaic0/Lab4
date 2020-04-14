@@ -144,6 +144,7 @@ void ProcessFreeResources (PCB *pcb) {
   // STUDENT: Free any memory resources on process death here.
   //------------------------------------------------------------
 
+  dbprintf('p', "Freeing memory resources\n");
   for(i=0; i < MEM_L1TABLE_SIZE; i++){
     if(pcb->pagetable[i] & MEM_PTE_VALID){
          MemoryFreePage((pcb->pagetable[i] & MEM_PTE_MASK) / MEM_PAGESIZE);
@@ -155,7 +156,7 @@ void ProcessFreeResources (PCB *pcb) {
   MemoryFreePage(pcb->sysStackArea / MEM_PAGESIZE);
 
   ProcessSetStatus (pcb, PROCESS_STATUS_FREE);
-  dbprintf('p', "Resources freed");
+  dbprintf('p', "Resources freed\n");
 }
 
 //----------------------------------------------------------------------
@@ -434,7 +435,7 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   // for the system stack.
   //---------------------------------------------------------
   dbprintf ('p', "Get Here.  Allocating pages for new process.\n");
-    //system stack
+  //system stack
   pcb -> sysStackArea = MemoryAllocPage() * MEM_PAGESIZE; 
   stackframe = (uint32 *)(pcb -> sysStackArea + MEM_PAGESIZE - 4); 
 
