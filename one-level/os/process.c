@@ -144,7 +144,7 @@ void ProcessFreeResources (PCB *pcb) {
   // STUDENT: Free any memory resources on process death here.
   //------------------------------------------------------------
 
-  dbprintf('p', "Freeing memory resources\n");
+  //dbprintf('p', "Freeing memory resources\n");
   for(i=0; i < MEM_L1TABLE_SIZE; i++){
     if(pcb->pagetable[i] & MEM_PTE_VALID){
          MemoryFreePage((pcb->pagetable[i] & MEM_PTE_MASK) / MEM_PAGESIZE);
