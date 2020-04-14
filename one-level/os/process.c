@@ -629,6 +629,8 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   if (currentPCB == NULL) {
     dbprintf ('p', "Setting currentPCB=0x%x, stackframe=0x%x\n",
 	      (int)pcb, (int)(pcb->currentSavedFrame));
+    printf ("Setting currentPCB=0x%x, stackframe=0x%x\n",
+	      (int)pcb, (int)(pcb->currentSavedFrame));
     currentPCB = pcb;
   }
 

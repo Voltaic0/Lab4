@@ -21,7 +21,7 @@ void main (int argc, char *argv[])
 
   // Convert string from ascii command line argument to integer number
   num_hello_world = dstrtol(argv[1], NULL, 10); // the "10" means base 10
-  Printf("makeprocs (%d): Creating %d hello_world processes\n", getpid(), num_hello_world);
+  //Printf("makeprocs (%d): Creating %d hello_world processes\n", getpid(), num_hello_world);
 
   // Create semaphore to not exit this process until all other processes 
   // have signalled that they are complete.
