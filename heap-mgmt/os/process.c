@@ -91,6 +91,10 @@ void ProcessModuleInit () {
     for (j = 0; j < MEM_L1TABLE_SIZE; j++) { //loop through page table size
       pcbs[i].pagetable[j] = 0;
     }
+
+    for(j = 0; j < (MEM_PAGESIZE / 4); j++){
+     pcbs[i].heapMgmt[j] = 0;
+	}
     
     // Finally, insert the link into the queue
     if (AQueueInsertFirst(&freepcbs, pcbs[i].l) != QUEUE_SUCCESS) {
@@ -150,6 +154,9 @@ void ProcessFreeResources (PCB *pcb) {
 
     }
      
+  }
+  for(i = 0; i < (MEM_PAGESIZE / 4); i++){
+      pcb->heapMgmt[i] = 0;
   }
   MemoryFreePage(pcb->sysStackArea / MEM_PAGESIZE);
 

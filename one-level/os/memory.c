@@ -215,7 +215,7 @@ int MemoryPageFaultHandler(PCB *pcb) {
   faultingAddr = pcb -> currentSavedFrame[PROCESS_STACK_FAULT];
   userStackAddr = (pcb -> currentSavedFrame[PROCESS_STACK_USER_STACKPOINTER]);
   userStackAddr &= 0x1FF000;
-  printf("faulting addr = %d, userStackAddr = %d\n", faultingAddr, userStackAddr);
+  printf("faulting addr = 0x%x, userStackAddr = 0x%x\n", faultingAddr, userStackAddr);
 
   faultPageNum = faultingAddr >> MEM_L1FIELD_FIRST_BITNUM;
   userStackPageNum = userStackAddr >> MEM_L1FIELD_FIRST_BITNUM;

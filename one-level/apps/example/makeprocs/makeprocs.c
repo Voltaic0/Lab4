@@ -36,7 +36,7 @@ void main (int argc, char *argv[])
   ditoa(s_procs_completed, s_procs_completed_str);
 
   // Create Hello World processes (works)
-  
+  /*
   Printf("-------------------------------------------------------------------------------------\n");
   Printf("makeprocs (%d): Creating %d hello world's in a row for test1, but only one runs at a time\n", getpid(), num_hello_world);
   for(i=0; i<num_hello_world; i++) {
@@ -47,7 +47,7 @@ void main (int argc, char *argv[])
       Exit();
     }
   }
-
+  */
   /*
   //Test2 (works correctly)
   Printf("-------------------------------------------------------------------------------------\n");

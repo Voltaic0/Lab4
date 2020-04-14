@@ -293,9 +293,3 @@ int mfree(PCB* pcb, void *ptr){
     return -1;
 }
 
-void MemoryHeapTreeInit(PCB *pcb){
-    int i;
-    for(i = 0; i<  128; i++){
-     pcb->heapMgmt[i]
-	}
-}
