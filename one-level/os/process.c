@@ -124,7 +124,7 @@ void ProcessSetStatus (PCB *pcb, int status) {
 //
 //----------------------------------------------------------------------
 void ProcessFreeResources (PCB *pcb) {
-  
+  printf("Freeing Resources\n");
   int i = 0;
 
   // Allocate a new link for this pcb on the freepcbs queue
