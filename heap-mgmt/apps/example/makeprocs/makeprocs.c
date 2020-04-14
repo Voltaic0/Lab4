@@ -8,7 +8,7 @@ void main (int argc, char *argv[])
 
     Printf("Malloc Tests:\n");
     Printf("Malloc size 10.\n");
-    one = malloc(10);
+    one = malloc(1000);
     Printf("Malloc size 100.\n");
     two = malloc(100);
     Printf("Malloc size 1000.\n");
