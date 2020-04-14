@@ -843,7 +843,7 @@ void main (int argc, char *argv[])
   printf ("Got %d arguments.\n", argc);
   printf ("Available memory: 0x%x -> 0x%x.\n", (int)lastosaddress, MemoryGetSize ());
   printf ("Argument count is %d.\n", argc);
-  dbprintf ('p', "TEST\n");
+  printf ("TEST\n");
   for (i = 0; i < argc; i++) {
     printf ("Argument %d is %s.\n", i, argv[i]);
   }
