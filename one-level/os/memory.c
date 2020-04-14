@@ -235,6 +235,7 @@ int MemoryPageFaultHandler(PCB *pcb) {
   }
 
   //else seg fault
+  printf ("Segfault from PageFaultHandler\n");
   ProcessKill();
   return MEM_FAIL;
 }

@@ -4,6 +4,7 @@
 #define HELLO_WORLD "hello_world.dlx.obj"
 #define TEST1 "test1.dlx.obj"
 #define TEST2 "test2.dlx.obj"
+#define TEST3 "test3.dlx.obj"
 
 void main (int argc, char *argv[])
 {
@@ -51,6 +52,16 @@ void main (int argc, char *argv[])
   Printf("makeprocs (%d): Test 2, Attempting to access outside of max bounds\n", getpid(), num_hello_world);
   Printf("makeprocs (%d): Creating process #%d\n", getpid(), i);
   process_create(TEST2, s_procs_completed_str, NULL);
+  if (sem_wait(s_procs_completed) != SYNC_SUCCESS) {
+    Printf("Bad semaphore s_procs_completed (%d) in %s\n", s_procs_completed, argv[0]);
+    Exit();
+  }
+
+  //Test3 (works correctly)
+  Printf("-------------------------------------------------------------------------------------\n");
+  Printf("makeprocs (%d): Test 3, Attempting to trigger segfault from MemoryPageFaultHandler\n", getpid(), num_hello_world);
+  Printf("makeprocs (%d): Creating process #%d\n", getpid(), i);
+  process_create(TEST3, s_procs_completed_str, NULL);
   if (sem_wait(s_procs_completed) != SYNC_SUCCESS) {
     Printf("Bad semaphore s_procs_completed (%d) in %s\n", s_procs_completed, argv[0]);
     Exit();
