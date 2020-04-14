@@ -3,6 +3,7 @@
 
 #define HELLO_WORLD "hello_world.dlx.obj"
 #define TEST1 "test1.dlx.obj"
+#define TEST2 "test2.dlx.obj"
 
 void main (int argc, char *argv[])
 {
@@ -33,6 +34,7 @@ void main (int argc, char *argv[])
   ditoa(s_procs_completed, s_procs_completed_str);
 
   // Create Hello World processes
+  /*
   Printf("-------------------------------------------------------------------------------------\n");
   Printf("makeprocs (%d): Creating %d hello world's in a row for test1, but only one runs at a time\n", getpid(), num_hello_world);
   for(i=0; i<num_hello_world; i++) {
@@ -43,13 +45,18 @@ void main (int argc, char *argv[])
       Exit();
     }
   }
+  */
 
-  Printf("Trying again\n");
-  process_create(TEST1, s_procs_completed_str, NULL);
-    if (sem_wait(s_procs_completed) != SYNC_SUCCESS) {
-      Printf("Bad semaphore s_procs_completed (%d) in %s\n", s_procs_completed, argv[0]);
-      Exit();
-    }
+  //Test2
+  Printf("-------------------------------------------------------------------------------------\n");
+  Printf("makeprocs (%d): Test 2, Attempting to access outside of max bounds\n", getpid(), num_hello_world);
+  Printf("makeprocs (%d): Creating process #%d\n", getpid(), i);
+  process_create(TEST2, s_procs_completed_str, NULL);
+  if (sem_wait(s_procs_completed) != SYNC_SUCCESS) {
+    Printf("Bad semaphore s_procs_completed (%d) in %s\n", s_procs_completed, argv[0]);
+    Exit();
+  }
+
 
   Printf("-------------------------------------------------------------------------------------\n");
   Printf("makeprocs (%d): All other processes completed, exiting main process.\n", getpid());
