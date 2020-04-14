@@ -1,5 +1,5 @@
-SRCS=test3.c
-EXEC=test3.dlx.obj
+SRCS=test6.c
+EXEC=test6.dlx.obj
 
 include ../Makerules
 

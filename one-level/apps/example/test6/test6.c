@@ -2,10 +2,21 @@
 #include "misc.h"
 #include "os/memory_constants.h"
 
+int test4Helper(int x) {
+    if (x == 0) {
+        return x;
+    }
+
+    return (1 + test4Helper(x - 1));
+}
+
+
+
 void main (int argc, char *argv[])
 {
   sem_t s_procs_completed; // Semaphore to signal the original process that we're done
   int* invalidAddress;
+  int x;
 
   if (argc != 2) { 
     Printf("Usage: %s <handle_to_procs_completed_semaphore>\n"); 
@@ -17,7 +28,10 @@ void main (int argc, char *argv[])
   invalidAddress = MEM_MAX_VIRTUAL_ADDRESS - MEM_PAGESIZE - 3;
 
   // Now print a message to show that everything worked
-  Printf("Attempting to trigger segfault (%d): test3\n", getpid());
+  Printf("Attempting to grow the user function call stack larger than one page (%d): test4\n", getpid());
+
+  x = test4Helper(1025);
+  Printf("Called %d times\n", x);
 
   // Signal the semaphore to tell the original process that we're done
   if(sem_signal(s_procs_completed) != SYNC_SUCCESS) {
@@ -25,9 +39,6 @@ void main (int argc, char *argv[])
     Exit();
   }
 
-  Printf("Attempting to trigger page fault: %d (program should print error from MemoryPageFaultHandler in memory.c!)\n", invalidAddress);
-
-  //these should not print (unless invalid address is changed to (MEM_MAX_VIRTUAL_ADDRESS - 3))
-  Printf("Accessing the value...\n %d!\n", *invalidAddress);
-  Printf("test2 (%d): Done!\n", getpid());
+  Printf("Completed successfully, call stack grew larger than one page\n %d!\n", *invalidAddress);
+  Printf("TEST4 (%d): Done!\n", getpid());
 }

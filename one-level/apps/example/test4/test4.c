@@ -30,7 +30,7 @@ void main (int argc, char *argv[])
   // Now print a message to show that everything worked
   Printf("Attempting to grow the user function call stack larger than one page (%d): test4\n", getpid());
 
-  x = test4Helper(2500);
+  x = test4Helper(1025);
   Printf("Called %d times\n", x);
 
   // Signal the semaphore to tell the original process that we're done
