@@ -264,7 +264,7 @@ int MemoryAllocPage(void) {
   }
 
   //find first bit set to 1 //STUCK HERE
-  while (freemap[i] & (1 << bitPos) == 0) {
+  while ((freemap[i] & (1 << bitPos)) == 0) {
     bitPos++;
   }
   dbprintf ('m', "After loop in MemoryAllocPage.\n");

@@ -124,6 +124,7 @@ void ProcessSetStatus (PCB *pcb, int status) {
 //
 //----------------------------------------------------------------------
 void ProcessFreeResources (PCB *pcb) {
+  dbprintf('p', "Entering ProcessFreeResources");
   int i = 0;
 
   // Allocate a new link for this pcb on the freepcbs queue
@@ -148,12 +149,13 @@ void ProcessFreeResources (PCB *pcb) {
          MemoryFreePage(pcb->pagetable[i] / MEM_PAGESIZE);
          pcb->pagetable[i]=0;
 
-	}
+    }
      
   }
   MemoryFreePage(pcb->sysStackArea / MEM_PAGESIZE);
 
   ProcessSetStatus (pcb, PROCESS_STATUS_FREE);
+  dbprintf('p', "Resources freed");
 }
 
 //----------------------------------------------------------------------
