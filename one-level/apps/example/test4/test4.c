@@ -7,7 +7,7 @@ int test4Helper(int x) {
         return x;
     }
 
-    return test4Helper(x - 1);
+    return (1 + test4Helper(x - 1));
 }
 
 
