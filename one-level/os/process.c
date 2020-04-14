@@ -846,7 +846,7 @@ void main (int argc, char *argv[])
   for (i = 0; i < argc; i++) {
     printf ("Argument %d is %s.\n", i, argv[i]);
   }
-  dbprintf('p',"test\n");
+  dbprintf ('p',"test\n");
   FsModuleInit ();
   
   for (i = 0; i < argc; i++) 
