@@ -37,7 +37,7 @@ void main (int argc, char *argv[])
   Printf("makeprocs (%d): Creating %d hello world's in a row, but only one runs at a time\n", getpid(), num_hello_world);
   for(i=0; i<num_hello_world; i++) {
     Printf("makeprocs (%d): Creating hello world #%d\n", getpid(), i);
-    process_create(TEST1, s_procs_completed_str, NULL);
+    process_create(HELLO_WORLD, s_procs_completed_str, NULL);
     if (sem_wait(s_procs_completed) != SYNC_SUCCESS) {
       Printf("Bad semaphore s_procs_completed (%d) in %s\n", s_procs_completed, argv[0]);
       Exit();
