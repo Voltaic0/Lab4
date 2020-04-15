@@ -37,7 +37,7 @@ void main (int argc, char *argv[])
   ditoa(s_procs_completed, s_procs_completed_str);
 
   // Create Hello World processes (works)
-  /*
+
   Printf("-------------------------------------------------------------------------------------\n");
   Printf("makeprocs (%d): Creating %d hello world's in a row for test1, but only one runs at a time\n", getpid(), num_hello_world);
   for(i=0; i<num_hello_world; i++) {
@@ -48,8 +48,7 @@ void main (int argc, char *argv[])
       Exit();
     }
   }
-  */
-  /*
+
   //Test2 (works correctly)
   Printf("-------------------------------------------------------------------------------------\n");
   Printf("makeprocs (%d): Test 2, Attempting to access outside of max bounds\n", getpid(), num_hello_world);
@@ -69,8 +68,7 @@ void main (int argc, char *argv[])
     Printf("Bad semaphore s_procs_completed (%d) in %s\n", s_procs_completed, argv[0]);
     Exit();
   }
-  */
-/*
+
   //Test4
   Printf("-------------------------------------------------------------------------------------\n");
   Printf("makeprocs (%d): Test 4, Attempting to grow user function call stack larger than one page\n", getpid());
@@ -80,8 +78,7 @@ void main (int argc, char *argv[])
     Printf("Bad semaphore s_procs_completed (%d) in %s\n", s_procs_completed, argv[0]);
     Exit();
   }
-*/
-/*
+
   //Test5 (works)
   Printf("makeprocs (%d): Creating %d hello world's in a row for test5, but only one runs at a time\n", getpid(), 100);
   for(i=0; i<100; i++) {
@@ -92,7 +89,7 @@ void main (int argc, char *argv[])
       Exit();
     }
   }
-*/
+
   //and test6
   Printf("makeprocs (%d): Creating %d long loops in a row for test6, attempting to get them to run simultaneously\n", getpid(), 30);
   for(i=0; i<30; i++) {
@@ -104,6 +101,7 @@ void main (int argc, char *argv[])
     }
   }
 
+  Printf("All tests completed.\n");
   Printf("-------------------------------------------------------------------------------------\n");
   Printf("makeprocs (%d): All other processes completed, exiting main process.\n", getpid());
 

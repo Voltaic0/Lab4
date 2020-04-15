@@ -18,7 +18,7 @@ void main (int argc, char *argv[])
   // Now print a message to show that everything worked
   Printf("Looping a large number to create simultaneous processes (%d): test6\n", getpid());
 
-  for (i = 0; i < 100000; i++) {
+  for (i = 0; i < 1000000; i++) {
     //just looping
   }
 
