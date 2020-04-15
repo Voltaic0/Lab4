@@ -158,7 +158,7 @@ void ProcessFreeResources (PCB *pcb) {
   for(i = 0; i < 128; i++){
       pcb->heapMgmt[i] = 0;
   }
-  pcb->heapAddrLoc = 4 << MEM_L1FIELD_FIRST_BITNUM;
+  
   MemoryFreePage(pcb->sysStackArea / MEM_PAGESIZE);
 
   ProcessSetStatus (pcb, PROCESS_STATUS_FREE);
@@ -461,9 +461,12 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   if (newPage < 0) {
     exitsim();
   }
-  pcb -> npages = 6;
+  pcb -> npages = 7;
   pcb -> pagetable[MEM_L1TABLE_SIZE-1] = MemorySetupPte(newPage); //stack starts from highest address
-  
+  pcb->heapAddrLoc = 4 << MEM_L1FIELD_FIRST_BITNUM;
+  for(i = 0; i < 128; i++){
+      pcb->heapMgmt[i] = 7;
+  }
   dbprintf ('p', "Allocated userstack.\n");
 
 
