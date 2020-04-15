@@ -80,6 +80,7 @@ void main (int argc, char *argv[])
   }
 
   //Test5 (works)
+  Printf("-------------------------------------------------------------------------------------\n");
   Printf("makeprocs (%d): Creating %d hello world's in a row for test5, but only one runs at a time\n", getpid(), 100);
   for(i=0; i<100; i++) {
     Printf("makeprocs (%d): Creating hello world #%d\n", getpid(), i);
@@ -91,6 +92,7 @@ void main (int argc, char *argv[])
   }
 
   //and test6
+  Printf("-------------------------------------------------------------------------------------\n");
   Printf("makeprocs (%d): Creating %d long loops in a row for test6, attempting to get them to run simultaneously\n", getpid(), 30);
   for(i=0; i<30; i++) {
     Printf("makeprocs (%d): Creating loop process #%d\n", getpid(), i);

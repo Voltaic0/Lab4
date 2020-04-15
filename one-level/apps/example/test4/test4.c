@@ -33,10 +33,10 @@ void main (int argc, char *argv[])
 
   // Signal the semaphore to tell the original process that we're done
   if(sem_signal(s_procs_completed) != SYNC_SUCCESS) {
-    Printf("test2 (%d): Bad semaphore s_procs_completed (%d)!\n", getpid(), s_procs_completed);
+    Printf("test4 (%d): Bad semaphore s_procs_completed (%d)!\n", getpid(), s_procs_completed);
     Exit();
   }
 
-  Printf("Completed successfully, call stack grew larger than one page\n %d!\n");
+  Printf("Completed successfully, call stack grew larger than one page\n");
   Printf("TEST4 (%d): Done!\n", getpid());
 }

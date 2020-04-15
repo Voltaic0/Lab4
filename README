@@ -1,26 +1,46 @@
 LAB 4 README
 
 Q1 and Q2:
-Modified: memory.h process.h memory_constants.h memory.c process.c
-cd /one-level/os
+//to compile os
+cd one-level
+cd os
+make clean
 make
-cd /one-level/apps/example
+
+//to compile makeprocs (from one-level directory)
+cd apps
+cd example
+make clean
 make
 make run
+//The six tests for Q2 should print successively and print out descriptive information to the terminal that proves the successful test cases.
+//Except for test 2 because this will kill the process
+
+/* The following is the output for test 2 when the virtual address is out of bounds 
+   //invalidAddress needs to be (MEM_MAX_VIRTUAL_ADDRESS + 1) in test2.c, right now it is (MEM_MAX_VIRTUAL_ADDRESS - 3) so that it doesn't stop the other tests from running
+
+    makeprocs (31): Test 2, Attempting to access outside of max bounds
+    makeprocs (31): Creating process #5
+    ProcessFork: stackframe = 0x29ea8
+    Attempting to access past MAX Virtual Address (25): test2
+    Attempting to access address: 1048576 (program should print error illegal access!)
+    Exiting after illegal access at iar=0x11ec, isr=0x100
+    Exiting at program request.
+    Instructions executed: 22429796
+    Time simulated: 22.430 secs
+    Real time elapsed: 0.916 secs
+    Execution rate: 24.50M simulated instructions per real second.
+
+*/
+
+
 
 Q3 and Q4:
-Modified: memory.h process.h memory_constants.h traps.h usertraps.h memory.c process.c
-			traps.c usertraps.s
-cd /fork/os
+cd fork/os
 make
-cd /fork/apps/example
+cd apps/example
 make
 make run
 
-Q5:
-Modified: memory.h process.h memory_constants.h memory.c process.c
-cd /heap-mgmt/os
-make
-cd /heap-mgmt/apps/example
-make
-make run
+Q5
+cd
