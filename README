@@ -1,6 +1,7 @@
 LAB 4 README
 
 Q1 and Q2:
+modified: process.h memory.h memory_constants.h memorcy.c process.c
 //to compile os
 cd one-level
 cd os
@@ -21,7 +22,6 @@ make run
 
     makeprocs (31): Test 2, Attempting to access outside of max bounds
     makeprocs (31): Creating process #5
-    ProcessFork: stackframe = 0x29ea8
     Attempting to access past MAX Virtual Address (25): test2
     Attempting to access address: 1048576 (program should print error illegal access!)
     Exiting after illegal access at iar=0x11ec, isr=0x100
@@ -36,11 +36,17 @@ make run
 
 
 Q3 and Q4:
+modified: process.h memory.h memory_constants.h memorcy.c process.c usertraps.h traps.c usertraps.s
 cd fork/os
 make
 cd apps/example
 make
 make run
 
-Q5
-cd
+Q5:
+modified: process.h memory.h memory_constants.h memorcy.c process.c
+cd /heap-mgmt/os
+make
+cd /apps/example
+make
+make run
