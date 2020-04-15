@@ -94,7 +94,7 @@ void main (int argc, char *argv[])
   }
 */
   //and test6
-  Printf("makeprocs (%d): Creating %d long loops in a row for test6, attempting to get them to run simultaneously\n", getpid(). 30);
+  Printf("makeprocs (%d): Creating %d long loops in a row for test6, attempting to get them to run simultaneously\n", getpid(), 30);
   for(i=0; i<30; i++) {
     Printf("makeprocs (%d): Creating loop process #%d\n", getpid(), i);
     process_create(TEST6, s_procs_completed_str, NULL);
