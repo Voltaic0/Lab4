@@ -156,7 +156,7 @@ void ProcessFreeResources (PCB *pcb) {
      
   }
   for(i = 0; i < 128; i++){
-      pcb->heapMgmt[i] = 7;
+      pcb->heapMgmt[i] = 0;
   }
   pcb->heapAddrLoc = 4 << MEM_L1FIELD_FIRST_BITNUM;
   MemoryFreePage(pcb->sysStackArea / MEM_PAGESIZE);
@@ -446,8 +446,8 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   stackframe = (uint32 *)(pcb -> sysStackArea + MEM_PAGESIZE - 4); 
   dbprintf ('p', "Allocated system stack.\n");
 
-  pcb -> npages = 4;
-  for (i = 0; i < 4; i++) {
+  pcb -> npages = 7;
+  for (i = 0; i < 5; i++) {
     newPage = MemoryAllocPage();
     if (newPage < 0) {
       //alloc failed
