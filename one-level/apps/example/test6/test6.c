@@ -6,7 +6,6 @@ void main (int argc, char *argv[])
 {
   sem_t s_procs_completed; // Semaphore to signal the original process that we're done
   int* invalidAddress;
-  int x;
   int i;
 
   if (argc != 2) { 
@@ -21,12 +20,10 @@ void main (int argc, char *argv[])
   // Now print a message to show that everything worked
   Printf("Looping a large number to create simultaneous processes (%d): test6\n", getpid());
 
-  x = 0;
   for (i = 0; i < 123456; i++) {
-    x++;
+    //just looping
   }
 
-  Printf("Called %d times\n", x);
 
   // Signal the semaphore to tell the original process that we're done
   if(sem_signal(s_procs_completed) != SYNC_SUCCESS) {
