@@ -481,7 +481,7 @@ int ProcessFork (VoidFunc func, uint32 param, char *name, int isUser) {
   // The previous stack frame pointer is set to 0, meaning there is no
   // previous frame.
   dbprintf('m', "ProcessFork: stackframe = 0x%x\n", (int)stackframe);
-  printf("ProcessFork: stackframe = 0x%x\n", (int)stackframe); //comment out later
+  //printf("ProcessFork: stackframe = 0x%x\n", (int)stackframe); //comment out later
   stackframe[PROCESS_STACK_PREV_FRAME] = 0; //illegal access is here
   //dbprintf('m', "ERROR.\n");
 
