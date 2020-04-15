@@ -1,6 +1,7 @@
 LAB 4 README
 
 Q1 and Q2:
+Modified: memory.h process.h memory_constants.h memory.c process.c
 cd /one-level/os
 make
 cd /one-level/apps/example
@@ -8,13 +9,16 @@ make
 make run
 
 Q3 and Q4:
+Modified: memory.h process.h memory_constants.h traps.h usertraps.h memory.c process.c
+			traps.c usertraps.s
 cd /fork/os
 make
 cd /fork/apps/example
 make
 make run
 
-Q5
+Q5:
+Modified: memory.h process.h memory_constants.h memory.c process.c
 cd /heap-mgmt/os
 make
 cd /heap-mgmt/apps/example
