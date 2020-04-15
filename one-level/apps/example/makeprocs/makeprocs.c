@@ -6,6 +6,7 @@
 #define TEST2 "test2.dlx.obj"
 #define TEST3 "test3.dlx.obj"
 #define TEST4 "test4.dlx.obj"
+#define TEST6 "test6.dlx.obj"
 
 void main (int argc, char *argv[])
 {
@@ -69,7 +70,7 @@ void main (int argc, char *argv[])
     Exit();
   }
   */
-
+/*
   //Test4
   Printf("-------------------------------------------------------------------------------------\n");
   Printf("makeprocs (%d): Test 4, Attempting to grow user function call stack larger than one page\n", getpid());
@@ -79,7 +80,7 @@ void main (int argc, char *argv[])
     Printf("Bad semaphore s_procs_completed (%d) in %s\n", s_procs_completed, argv[0]);
     Exit();
   }
-
+*/
 /*
   //Test5 (works)
   Printf("makeprocs (%d): Creating %d hello world's in a row for test5, but only one runs at a time\n", getpid(), 100);
@@ -93,6 +94,15 @@ void main (int argc, char *argv[])
   }
 */
   //and test6
+  Printf("makeprocs (%d): Creating %d long loops in a row for test6, attempting to get them to run simultaneously\n", getpid(). 30);
+  for(i=0; i<30; i++) {
+    Printf("makeprocs (%d): Creating loop process #%d\n", getpid(), i);
+    process_create(TEST6, s_procs_completed_str, NULL);
+    if (sem_wait(s_procs_completed) != SYNC_SUCCESS) {
+      Printf("Bad semaphore s_procs_completed (%d) in %s\n", s_procs_completed, argv[0]);
+      Exit();
+    }
+  }
 
   Printf("-------------------------------------------------------------------------------------\n");
   Printf("makeprocs (%d): All other processes completed, exiting main process.\n", getpid());

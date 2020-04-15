@@ -7,6 +7,7 @@ void main (int argc, char *argv[])
   sem_t s_procs_completed; // Semaphore to signal the original process that we're done
   int* invalidAddress;
   int x;
+  int i;
 
   if (argc != 2) { 
     Printf("Usage: %s <handle_to_procs_completed_semaphore>\n"); 
@@ -18,17 +19,21 @@ void main (int argc, char *argv[])
   invalidAddress = MEM_MAX_VIRTUAL_ADDRESS - MEM_PAGESIZE - 3;
 
   // Now print a message to show that everything worked
-  Printf("Attempting to grow the user function call stack larger than one page (%d): test4\n", getpid());
+  Printf("Looping a large number to create simultaneous processes (%d): test6\n", getpid());
 
-  x = test4Helper(1025);
+  x = 0;
+  for (i = 0; i < 123456; i++) {
+    x++;
+  }
+
   Printf("Called %d times\n", x);
 
   // Signal the semaphore to tell the original process that we're done
   if(sem_signal(s_procs_completed) != SYNC_SUCCESS) {
-    Printf("test2 (%d): Bad semaphore s_procs_completed (%d)!\n", getpid(), s_procs_completed);
+    Printf("test6 (%d): Bad semaphore s_procs_completed (%d)!\n", getpid(), s_procs_completed);
     Exit();
   }
 
-  Printf("Completed successfully, call stack grew larger than one page\n %d!\n", *invalidAddress);
-  Printf("TEST4 (%d): Done!\n", getpid());
+  Printf("Completed successfully, looped through a big number\n %d!\n", *invalidAddress);
+  Printf("TEST6 (%d): Done here!\n", getpid());
 }

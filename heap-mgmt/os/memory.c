@@ -292,7 +292,7 @@ void *malloc(PCB* pcb, int memsize){
 
 
     if(memsize < 0 || memsize > MEM_PAGESIZE){
-     printf("Asked for too much memory.\n");
+     printf("Asked for too much or negative memory.\n");
      return NULL;
 	}
 
@@ -316,6 +316,7 @@ void *malloc(PCB* pcb, int memsize){
 
 	}
     if(smallOrd == 8){
+     printf("Large order.\n")
      return NULL;
 	}
     //Need to make child nodes

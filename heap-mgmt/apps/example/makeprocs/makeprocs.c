@@ -8,7 +8,7 @@ void main (int argc, char *argv[])
 
     Printf("Malloc Tests:\n");
     Printf("Malloc size 10.\n");
-    one = malloc(1000);
+    one = malloc(10);
     Printf("Malloc size 100.\n");
     two = malloc(100);
     Printf("Malloc size 1000.\n");
@@ -26,6 +26,6 @@ void main (int argc, char *argv[])
     Printf("Free 15.\n");
     mfree(four);
 
-    Printf("Malloc and mfree tests complete");
+    Printf("Malloc and mfree tests complete\n");
   
 }

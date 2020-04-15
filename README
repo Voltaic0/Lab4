@@ -1,0 +1,22 @@
+LAB 4 README
+
+Q1 and Q2:
+cd /one-level/os
+make
+cd /one-level/apps/example
+make
+make run
+
+Q3 and Q4:
+cd /fork/os
+make
+cd /fork/apps/example
+make
+make run
+
+Q5
+cd /heap-mgmt/os
+make
+cd /heap-mgmt/apps/example
+make
+make run
