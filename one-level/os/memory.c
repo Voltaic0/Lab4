@@ -92,7 +92,7 @@ uint32 MemoryTranslateUserToSystem (PCB *pcb, uint32 addr) {
     int virtPageNum = addr >> MEM_L1FIELD_FIRST_BITNUM;
     uint32 offsetFromAdd = addr & MEM_ADDRESS_OFFSET_MASK;
     uint32 physicalAddress;
-    printf("Entering TranslateUserToSystem\n");
+    //printf("Entering TranslateUserToSystem\n");
 
     if(addr > MEM_MAX_VIRTUAL_ADDRESS){
       printf("Address too large TranslateUserToSystem\n");
