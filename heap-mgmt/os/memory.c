@@ -316,7 +316,7 @@ void *malloc(PCB* pcb, int memsize){
 
 	}
     if(smallOrd == 8){
-     printf("Large order.\n")
+     printf("Large order.\n");
      return NULL;
 	}
     //Need to make child nodes
