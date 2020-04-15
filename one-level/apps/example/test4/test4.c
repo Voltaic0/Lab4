@@ -15,7 +15,6 @@ int test4Helper(int x) {
 void main (int argc, char *argv[])
 {
   sem_t s_procs_completed; // Semaphore to signal the original process that we're done
-  int* invalidAddress;
   int x;
 
   if (argc != 2) { 
@@ -25,7 +24,6 @@ void main (int argc, char *argv[])
 
   // Convert the command-line strings into integers for use as handles
   s_procs_completed = dstrtol(argv[1], NULL, 10);
-  invalidAddress = MEM_MAX_VIRTUAL_ADDRESS - MEM_PAGESIZE - 3;
 
   // Now print a message to show that everything worked
   Printf("Attempting to grow the user function call stack larger than one page (%d): test4\n", getpid());
@@ -39,6 +37,6 @@ void main (int argc, char *argv[])
     Exit();
   }
 
-  Printf("Completed successfully, call stack grew larger than one page\n %d!\n", *invalidAddress);
+  Printf("Completed successfully, call stack grew larger than one page\n %d!\n");
   Printf("TEST4 (%d): Done!\n", getpid());
 }
